@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resources([
+    'assigns' => 'AssignController',
+    'companies' => 'CompanyController',
+    'customers' => 'CustomerController',
+    'daily-assigns' => 'DailyAssignController',
+    'daily-reports' => 'DailyReportController',
+    'employees' => 'EmployeeController',
+    'project' => 'ProjectController',
+    'project-human-resources' => 'ProjectHumanResourceController',
+]);
