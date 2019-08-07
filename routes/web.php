@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::resources([
     'assigns' => 'AssignController',
@@ -24,3 +24,7 @@ Route::resources([
     'projects' => 'ProjectController',
     'project-human-resources' => 'ProjectHumanResourceController',
 ]);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

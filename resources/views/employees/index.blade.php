@@ -1,49 +1,55 @@
 @extends('layout')
 
 @section('content')
-    <style>
-        .uper {
-            margin-top: 40px;
-        }
-    </style>
-    <div class="card uper">
-        <div class="card-header">
-            Thêm nhân viên
-        </div>
-        <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div><br />
+    <div class="row">
+        <div class="col-sm-12">
+            @if(session()->get('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
             @endif
-            <form method="post" action="{{ route('employees.store') }}">
-                <div class="form-group">
-                    @csrf
-                    <label for="name">Họ:</label>
-                    <input type="lastname" class="form-control" name="lastname"/>
-                </div>
-                <div class="form-group">
-                    <label for="firstname">Tên :</label>
-                    <input type="text" class="form-control" name="firstname"/>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" class="form-control" name="email"/>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu:</label>
-                    <input type="text" class="form-control" name="password"/>
-                </div>
-                <div class="form-group">
-                    <label for="birthday">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday"/>
-                </div>
-                <button type="submit" class="btn btn-primary">Đăng ký</button>
-            </form>
-        </div>
-    </div>
+            <h2 class="display-4">Danh sách nhân viên</h2>
+            <div>
+                <a style="margin: 19px;" href="{{ route('employees.create')}}" class="btn btn-primary">Đăng ký nhân viên mới</a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Avatar</td>
+                    <td>Họ Tên</td>
+                    <td>Email</td>
+                    <td>Ngày sinh</td>
+                    <td>Địa chỉ</td>
+                    <td colspan = 2>Thao tác</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($employees as $employee)
+                    <tr>
+                        <td>
+                            <img class="avatar"  src="{{ asset(config('app.file_path').$employee->avatar) }}" alt="avatar">
+                        </td>
+                        <td>{{ $employee->firstname }} {{ $employee->lastname }}</td>
+                        <td>{{ $employee->email }}</td>
+                        <td>{{ $employee->birthday }}</td>
+                        <td>{{ $employee->adress }}</td>
+                        <td>
+                            <a href="{{ route('employees.edit',$employee->id)}}" class="btn btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            <form action="{{ route('employees.destroy', $employee->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
+            {{ $employees->links() }}
+            <div>
+            </div>
 @endsection
+
