@@ -21,6 +21,6 @@ Route::resources([
     'daily-assigns' => 'DailyAssignController',
     'daily-reports' => 'DailyReportController',
     'employees' => 'EmployeeController',
-    'project' => 'ProjectController',
+    'projects' => 'ProjectController',
     'project-human-resources' => 'ProjectHumanResourceController',
 ]);
