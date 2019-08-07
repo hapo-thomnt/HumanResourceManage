@@ -36,11 +36,19 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu:</label>
-                    <input type="text" class="form-control" name="password"/>
+                    <input type="password" class="form-control" name="password"/>
                 </div>
                 <div class="form-group">
                     <label for="birthday">Ngày sinh:</label>
                     <input type="text" class="form-control" name="birthday"/>
+                </div>
+                <div class="form-group">
+                    <label for="adress">Địa chỉ:</label>
+                    <input type="text" class="form-control" name="adress"/>
+                </div>
+                <div class="form-group">
+                    <label for="avatar">Upload Avatar:</label>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>

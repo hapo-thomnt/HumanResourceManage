@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('DEFAULT_LANG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -227,5 +227,37 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    /*
+ |--------------------------------------------------------------------------
+ | File Path
+ |--------------------------------------------------------------------------
+ |
+ | This key is used to define path to uploaded image
+ |
+ */
 
+    'file_path' => env('FILE_PATH', '/'),
+
+    /*
+|--------------------------------------------------------------------------
+| Default avatar for user
+|--------------------------------------------------------------------------
+|
+| This key is used to define path to uploaded image
+|
+*/
+
+    'avatar_default' => 'avatar.png',
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Number of element in one page use pagination
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to define Number of element in one page use pagination
+    |
+    */
+
+    'paginate' =>  env('PAGINATE', 20),
 ];
