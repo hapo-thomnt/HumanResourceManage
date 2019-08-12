@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -13,7 +14,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Company::paginate(config('app.paginate'));
+        $data = [
+            'companies' => $companies,
+        ];
+        return view('companies.index', $data);
     }
 
     /**
@@ -23,7 +28,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**
@@ -34,7 +39,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $company = Company::create($input);
+
+        return redirect()->route('companies.index')
+            ->with('success', __('messages.company.create.success'));
     }
 
     /**
@@ -56,7 +66,8 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = Company::find($id);
+        return view('companies.edit', compact('company'));
     }
 
     /**
@@ -68,7 +79,11 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        $input = $request->all();
+        $company->update($input);
+
+        return redirect()->route('companies.index')->with('success', __('messages.company.update.success'));
     }
 
     /**
@@ -79,6 +94,11 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = Company::find($id);
+        if($company){
+            $destroy = Company::destroy($id);
+        }
+
+        return redirect()->route('companies.index')->with('success', __('messages.company.delete.success'));
     }
 }

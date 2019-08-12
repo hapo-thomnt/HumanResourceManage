@@ -24,6 +24,18 @@ return [
         'delete' => [
             'success' => 'Xóa thành công',
         ],
+    ],
+    'company' => [
+        'create' => [
+            'success' => 'Đăng ký công ty mới thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật thành công ',
+        ],
+        'delete' => [
+            'success' => 'Xóa thành công',
+        ],
     ]
 
 ];

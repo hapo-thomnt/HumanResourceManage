@@ -24,6 +24,18 @@ return [
         'delete' => [
             'success' => 'Contact Deleted Successfully',
         ],
-    ]
+    ],
+    'company' => [
+        'create' => [
+            'success' => 'Company Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Update Successfully',
+        ],
+        'delete' => [
+            'success' => 'Contact Deleted Successfully',
+        ],
+    ],
 
 ];
