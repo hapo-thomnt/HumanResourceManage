@@ -36,6 +36,18 @@ return [
         'delete' => [
             'success' => 'Xóa thành công',
         ],
-    ]
+    ],
+    'customer' => [
+        'create' => [
+            'success' => 'Đăng ký khách hàng mới thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật khách hàng thành công ',
+        ],
+        'delete' => [
+            'success' => 'Xóa khách hàng thành công',
+        ],
+    ],
 
 ];

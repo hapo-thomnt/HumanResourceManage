@@ -66,7 +66,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $employee = Company::find($id);
+        $company = Company::find($id);
         return view('companies.edit', compact('company'));
     }
 

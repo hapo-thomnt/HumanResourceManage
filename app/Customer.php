@@ -31,4 +31,12 @@ class Customer extends Model
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * Get the company that customer work for
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Company');
+    }
 }

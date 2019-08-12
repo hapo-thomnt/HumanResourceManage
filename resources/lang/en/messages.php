@@ -37,5 +37,17 @@ return [
             'success' => 'Contact Deleted Successfully',
         ],
     ],
+    'customer' => [
+        'create' => [
+            'success' => 'Customer Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Customer Update Successfully',
+        ],
+        'delete' => [
+            'success' => 'Customer Deleted Successfully',
+        ],
+    ],
 
 ];

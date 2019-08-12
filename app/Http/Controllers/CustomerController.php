@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::paginate(config('app.paginate'));
+        $data = [
+            'customers' => $customers,
+        ];
+        return view('customers.index', $data);
     }
 
     /**
@@ -23,7 +35,11 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customers.create');
+        $companies = Company::all();
+        $data = [
+            'companies' => $companies,
+        ];
+        return view('customers.create', $data);
     }
 
     /**
@@ -34,7 +50,22 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->except('avatar');
+
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $imageName  = basename($storagePath);
+        } else {
+            $imageName= config('app.avatar_default');
+        }
+        $input['avatar']  = $imageName;
+
+        $input['password'] =  Hash::make($input['password']);
+
+        $record = Customer::create($input);
+
+        return redirect()->route('customers.index')
+            ->with('success', __('messages.customer.create.success'));
     }
 
     /**
@@ -56,7 +87,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -68,7 +100,20 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        $input = $request->except('avatar');
+
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+            $input['avatar'] = $imageName;
+        }
+
+        $input['password'] =  Hash::make($input['password']);
+
+        $customer->update($input);
+
+        return redirect()->route('customers.index')->with('success', __('messages.customer.update.success'));
     }
 
     /**
@@ -79,6 +124,11 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer = Customer::find($id);
+        if($customer){
+            $destroy = Customer::destroy($id);
+        }
+
+        return redirect()->route('customers.index')->with('success', __('messages.customer.delete.success'));
     }
 }

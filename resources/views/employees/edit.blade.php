@@ -34,6 +34,10 @@
                     <input type="text" class="form-control" name="email" value="{{ $employee->email }}" />
                 </div>
                 <div class="form-group">
+                    <label for="password">Mật khẩu:</label>
+                    <input type="password" class="form-control" name="password" />
+                </div>
+                <div class="form-group">
                     <label for="adress">Ngày sinh:</label>
                     <input type="text" class="form-control" name="birthday" value="{{ $employee->birthday }}" />
                 </div>

@@ -19,6 +19,13 @@ class Company extends Authenticatable
         'website',
     ];
 
+    /**
+     * Get the customers work in company.
+     */
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
 
 
 
