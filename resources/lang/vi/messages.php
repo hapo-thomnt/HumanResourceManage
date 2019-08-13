@@ -49,5 +49,17 @@ return [
             'success' => 'Xóa khách hàng thành công',
         ],
     ],
+    'project' => [
+        'create' => [
+            'success' => 'Đăng ký Dự án mới thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật Dự án  thành công ',
+        ],
+        'delete' => [
+            'success' => 'Xóa Dự án  thành công',
+        ],
+    ],
 
 ];

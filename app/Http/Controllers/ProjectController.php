@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +20,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::paginate(config('app.paginate'));
+        $data = [
+            'projects' => $projects,
+        ];
+        return view('projects.index', $data);
     }
 
     /**
@@ -23,7 +34,11 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $customers = Customer::all();
+        $data = [
+            'customers' => $customers,
+        ];
+        return view('projects.create', $data);
     }
 
     /**
@@ -34,7 +49,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        
+        $record = Project::create($input);
+
+        return redirect()->route('projects.index')
+            ->with('success', __('messages.project.create.success'));
     }
 
     /**
@@ -56,7 +76,14 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customers = Customer::all();
+        $project = Project::find($id);
+        $data = [
+            'customers' => $customers,
+            'project' => $project,
+        ];
+
+        return view('projects.edit', $data);
     }
 
     /**
@@ -68,7 +95,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $input = $request->all();
+
+        $project->update($input);
+
+        return redirect()->route('projects.index')->with('success', __('messages.project.update.success'));
     }
 
     /**
@@ -79,6 +111,11 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project = Project::find($id);
+        if($project){
+            $destroy = Project::destroy($id);
+        }
+
+        return redirect()->route('projects.index')->with('success', __('messages.project.delete.success'));
     }
 }

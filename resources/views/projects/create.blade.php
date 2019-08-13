@@ -8,7 +8,7 @@
     </style>
     <div class="card uper">
         <div class="card-header">
-            Thêm nhân viên
+            Thêm Project
         </div>
         <div class="card-body">
             @if ($errors->any())
@@ -20,27 +20,31 @@
                     </ul>
                 </div><br />
             @endif
-            <form method="post" action="{{ route('employees.store') }}">
+            <form method="post" action="{{ route('projects.store') }}">
+                @csrf
                 <div class="form-group">
-                    @csrf
-                    <label for="name">Họ:</label>
-                    <input type="lastname" class="form-control" name="lastname"/>
+                    <label for="name">Tên project:</label>
+                    <input type="text" class="form-control" name="name"/>
                 </div>
                 <div class="form-group">
-                    <label for="firstname">Tên :</label>
-                    <input type="text" class="form-control" name="firstname"/>
+                    <label for="start_date">Ngày bắt đầu :</label>
+                    <input type="date" class="form-control" name="start_date"/>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" class="form-control" name="email"/>
+                    <label for="end_date">Ngày kết thúc:</label>
+                    <input type="date" class="form-control" name="end_date"/>
                 </div>
                 <div class="form-group">
-                    <label for="password">Mật khẩu:</label>
-                    <input type="text" class="form-control" name="password"/>
+                    <label for="customer_id">Khách hàng phụ trách:</label>
+                    <select name="customer_id">
+                        @foreach($customers as $customer)
+                            <option value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="birthday">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday"/>
+                    <label for="description">Mô tả:</label>
+                    <input type="text" class="form-control" name="description"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>

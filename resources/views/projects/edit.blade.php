@@ -1,16 +1,10 @@
 @extends('layout')
 
 @section('content')
-    <style>
-        .uper {
-            margin-top: 40px;
-        }
-    </style>
-    <div class="card uper">
-        <div class="card-header">
-            Thêm nhân viên
-        </div>
-        <div class="card-body">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <h1 class="display-3">Cập nhật khách hàng</h1>
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -18,31 +12,37 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-                </div><br />
+                </div>
+                <br />
             @endif
-            <form method="post" action="{{ route('employees.store') }}">
+            <form method="post" action="{{ route('projects.update', $project->id) }}" enctype="multipart/form-data">
+                @method('PATCH')
+                @csrf
                 <div class="form-group">
-                    @csrf
-                    <label for="name">Họ:</label>
-                    <input type="lastname" class="form-control" name="lastname"/>
+                    <label for="name">Tên project:</label>
+                    <input type="text" class="form-control" name="name" value="{{ $project->name }}" />
                 </div>
                 <div class="form-group">
-                    <label for="firstname">Tên :</label>
-                    <input type="text" class="form-control" name="firstname"/>
+                    <label for="start_date">Ngày bắt đầu :</label>
+                    <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}" />
                 </div>
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" class="form-control" name="email"/>
+                    <label for="end_date">Ngày kết thúc:</label>
+                    <input type="date" class="form-control" name="end_date" value="{{ $project->end_date }}" />
                 </div>
                 <div class="form-group">
-                    <label for="password">Mật khẩu:</label>
-                    <input type="text" class="form-control" name="password"/>
+                    <label for="customer_id">Khách hàng phụ trách:</label>
+                    <select name="customer_id">
+                        @foreach($customers as $customer)
+                            <option @if($project->customer->id == $customer->id) selected @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="birthday">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday"/>
+                    <label for="description">Mô tả:</label>
+                    <input type="text" class="form-control" name="description" value="{{ $project->description }}"/>
                 </div>
-                <button type="submit" class="btn btn-primary">Đăng ký</button>
+                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>
         </div>
     </div>

@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -18,4 +20,12 @@ class Project extends Model
         'customer_id',
         'description',
     ];
+
+    /**
+     * Get the company that customer work for
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
+    }
 }

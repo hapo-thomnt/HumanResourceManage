@@ -39,4 +39,12 @@ class Customer extends Model
     {
         return $this->belongsTo('App\Company');
     }
+
+    /**
+     * Get the customers work in company.
+     */
+    public function project()
+    {
+        return $this->hasMany('App\Project');
+    }
 }

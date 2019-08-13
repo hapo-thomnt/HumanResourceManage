@@ -49,5 +49,17 @@ return [
             'success' => 'Customer Deleted Successfully',
         ],
     ],
+    'project' => [
+        'create' => [
+            'success' => 'Project Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Project Update Successfully',
+        ],
+        'delete' => [
+            'success' => 'Project Deleted Successfully',
+        ],
+    ],
 
 ];
