@@ -22,8 +22,9 @@ Route::resources([
     'daily-reports' => 'DailyReportController',
     'employees' => 'EmployeeController',
     'projects' => 'ProjectController',
-    'project-human-resources' => 'ProjectHumanResourceController',
 ]);
+Route::get('/project-assign/{project}/edit', 'ProjectController@assign')->name('project-assign.edit');
+Route::put('/project-assign/{project}', 'ProjectController@assignUpdate')->name('project-assign.update');
 
 Auth::routes();
 

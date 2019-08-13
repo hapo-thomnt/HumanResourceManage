@@ -28,4 +28,12 @@ class Project extends Model
     {
         return $this->belongsTo('App\Customer');
     }
+
+    /**
+     * Get the employee that  working in current project
+     */
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class);
+    }
 }

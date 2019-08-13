@@ -42,4 +42,11 @@ class Employee extends Authenticatable
     protected $casts = [
         'birthday' => 'date',
     ];
+    /**
+     * Get the project that employees working in
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }

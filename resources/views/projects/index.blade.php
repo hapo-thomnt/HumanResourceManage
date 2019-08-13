@@ -19,6 +19,7 @@
                     <td>Ngày kết thúc dự kiến</td>
                     <td>Khách hàng phụ trách</td>
                     <td>Mô tả</td>
+                    <td>Phân công dự án</td>
                     <td colspan = 2>Thao tác</td>
                 </tr>
                 </thead>
@@ -30,6 +31,9 @@
                         <td>{{ $project->end_date }}</td>
                         <td>{{ $project->customer->firstname }} {{ $project->customer->lastname }}</td>
                         <td>{{ $project->description }}</td>
+                        <td>
+                            <a href="{{ route('project-assign.edit',$project->id)}}" class="btn btn-primary">Phân công</a>
+                        </td>
                         <td>
                             <a href="{{ route('projects.edit',$project->id)}}" class="btn btn-primary">Edit</a>
                         </td>

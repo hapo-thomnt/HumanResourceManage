@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Employee;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -117,5 +118,37 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('projects.index')->with('success', __('messages.project.delete.success'));
+    }
+
+    /**
+     * Show the form for assign employee for project
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function assign($id)
+    {
+        $project = Project::find($id);
+        $employees = Employee::all();
+        $data = [
+            'project' => $project,
+            'employees' => $employees,
+        ];
+        return view('projects.assign', $data);
+    }
+
+    /**
+     * Show the form for assign employee for project
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function assignUpdate($id)
+    {
+        $project = Project::find($id);
+        $employees = Employee::all();
+        $data = [
+            'project' => $project,
+            'employees' => $employees,
+        ];
+        return view('projects.assign', $data);
     }
 }
