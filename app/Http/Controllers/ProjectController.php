@@ -137,13 +137,22 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for assign employee for project
+     * update assign information of a project
      *
      * @return \Illuminate\Http\Response
      */
-    public function assignUpdate($id)
+    public function assignUpdate(Request $request,$project_id)
     {
-        $project = Project::find($id);
+        $project = Project::find($project_id);
+        $input = $request->all();
+        $employeeid = $request->get('employee_id');
+        $data = [
+            'start_date'=> $request->get('start_date'),
+            'end_date'=> $request->get('end_date'),
+        ];
+//        dd($data);
+
+        $project->employees()->attach($employeeid,$data);
         $employees = Employee::all();
         $data = [
             'project' => $project,
