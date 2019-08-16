@@ -125,15 +125,15 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assign($id)
+    public function assign($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::with('employees')->find($project_id);
         $employees = Employee::all();
         $data = [
             'project' => $project,
             'employees' => $employees,
         ];
-        return view('projects.assign', $data);
+        return view('projects.index_assign', $data);
     }
 
     /**
@@ -144,20 +144,36 @@ class ProjectController extends Controller
     public function assignUpdate(Request $request,$project_id)
     {
         $project = Project::find($project_id);
-        $input = $request->all();
-        $employeeid = $request->get('employee_id');
-        $data = [
-            'start_date'=> $request->get('start_date'),
-            'end_date'=> $request->get('end_date'),
-        ];
-//        dd($data);
+        $employeeIds = $request->get('employee_id');
+        $start_dates= $request->get('start_date');
+        $end_dates = $request->get('end_date');
 
-        $project->employees()->attach($employeeid,$data);
-        $employees = Employee::all();
-        $data = [
-            'project' => $project,
-            'employees' => $employees,
-        ];
-        return view('projects.assign', $data);
+        $countEmployee = count($request->employee_id);
+        for($i = 0; $i < $countEmployee; $i++){
+            $employeeid =$employeeIds[$i];
+            $data = [
+                'start_date'=> $start_dates[$i],
+                'end_date'=> $end_dates[$i],
+            ];
+            $project->employees()->attach($employeeid,$data);
+        }
+
+        return redirect()->route('project-assign.edit',$project_id)->with('success', __('messages.project.update.success'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $project_id,$employee_id
+     * @return \Illuminate\Http\Response
+     */
+    public function assignDestroy($projectId,$employeeId)
+    {
+        $project = Project::find($projectId);
+        if($project){
+            $destroy = $project->employees()->detach($employeeId);
+        }
+
+        return redirect()->route('project-assign.edit',$projectId)->with('success', __('messages.project.delete.success'));
     }
 }

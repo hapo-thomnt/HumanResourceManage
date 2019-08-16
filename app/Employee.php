@@ -47,6 +47,6 @@ class Employee extends Authenticatable
      */
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class)->withPivot('start_date','end_date');
     }
 }

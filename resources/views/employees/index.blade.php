@@ -31,7 +31,7 @@
                         <td>
                             <img class="avatar"  src="{{ asset(config('app.file_path').$employee->avatar) }}" alt="avatar">
                         </td>
-                        <td>{{ $employee->firstname }} {{ $employee->lastname }}</td>
+                        <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->birthday }}</td>
                         <td>{{ $employee->adress }}</td>
