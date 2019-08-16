@@ -125,9 +125,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assign($id)
+    public function assign($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::with('employees')->find($project_id);;
         $employees = Employee::all();
         $data = [
             'project' => $project,
@@ -144,20 +144,29 @@ class ProjectController extends Controller
     public function assignUpdate(Request $request,$project_id)
     {
         $project = Project::find($project_id);
-        $input = $request->all();
         $employeeid = $request->get('employee_id');
         $data = [
             'start_date'=> $request->get('start_date'),
             'end_date'=> $request->get('end_date'),
         ];
-//        dd($data);
-
         $project->employees()->attach($employeeid,$data);
-        $employees = Employee::all();
-        $data = [
-            'project' => $project,
-            'employees' => $employees,
-        ];
-        return view('projects.assign', $data);
+
+        return redirect()->route('project-assign.edit',$project_id)->with('success', __('messages.project.update.success'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function assignDestroy($id)
+    {
+        $project = Project::find($id);
+        if($project){
+            $destroy = Project::destroy($id);
+        }
+
+        return redirect()->route('projects.index')->with('success', __('messages.project.delete.success'));
     }
 }
