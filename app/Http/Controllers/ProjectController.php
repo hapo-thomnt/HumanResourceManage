@@ -149,6 +149,7 @@ class ProjectController extends Controller
         $employeeIds = $request->get('employee_id');
         $start_dates= $request->get('start_date');
         $end_dates = $request->get('end_date');
+        $is_news = $request->get('is_new');
 
         $countEmployee = count($request->employee_id);
         for($i = 0; $i < $countEmployee; $i++){
@@ -156,11 +157,26 @@ class ProjectController extends Controller
             if (is_null($employeeid)){
                 continue;
             }
+            $tempStartDate = date($start_dates[$i]);
+            $tempStartDate = date($end_dates[$i]);
             $data = [
-                'start_date'=> $start_dates[$i],
-                'end_date'=> $end_dates[$i],
+                'start_date'=> $tempStartDate,
+                'end_date'=> $tempStartDate,
             ];
-            $project->employees()->attach($employeeid,$data);
+            if(filter_var($is_news[$i],FILTER_VALIDATE_BOOLEAN)){
+                $project->employees()->attach($employeeid,$data);
+            }else{
+                $project = Project::findOrFail($project_id);
+                if($project){
+                    $pivoteData = EmployProject::where('project_id', $project_id)
+                        ->where('employee_id', $employeeid)
+                        ->whereDate('start_date', $tempStartDate)
+                        ->whereDate('end_date', $tempStartDate)
+                        ->first();
+                    dd($pivoteData);
+                }
+            }
+
         }
 
         return redirect()->route('project-assign.edit',$project_id)->with('success', __('messages.project.update.success'));

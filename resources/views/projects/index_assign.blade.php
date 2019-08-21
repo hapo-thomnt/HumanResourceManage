@@ -35,9 +35,9 @@
                     @foreach($project->employees as $employee)
                         <tr>
                             <td><input type="hidden" name="employee_id[]" value="{{ $employee->id }} " />{{ $employee->lastname }} {{ $employee->firstname }}</td>
-
+                            <input type="hidden" name="is_new[]" value="false" />
                             <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->start_date }}" /></td>
-                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->end_date }}" /></td>
+                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $employee->pivot->end_date }}" /></td>
                             <td>
                                 <a class="btn btn-danger" onclick="deleteUserFromProject('{{ route('project-assign.destroy', ['projectId' => $project->id, 'employeeId' => $employee->id] ) }}', '{{ $employee->pivot->start_date }}', '{{ $employee->pivot->end_date }}')">Delete</a>
                             </td>
@@ -54,13 +54,14 @@
                                 <option value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
                             @endforeach
                         </select>
+                        <input type="hidden" name="is_new[]" value="true" />
                         <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $project->end_date }}" />
                         <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $project->end_date }}" />
                         <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
                     </div>
                 </div>
                 <button type="button" class="btn btn-xs btn-primary button-add-employee">Thêm</button>
-                <button type="submit" class="btn btn-primary">Đăng ký</button>
+                <button type="submit" class="btn btn-primary">Cập nhật phân công</button>
             </form>
         </div>
     </div>
@@ -76,6 +77,7 @@
                     <option value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
                             @endforeach
                     </select>
+                    <input type="hidden" name="is_new[]" value="true" />
                     <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $project->end_date }}" />
                         <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $project->end_date }}" />
                         <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
