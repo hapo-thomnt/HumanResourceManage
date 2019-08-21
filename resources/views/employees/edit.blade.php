@@ -34,7 +34,15 @@
                     <input type="text" class="form-control" name="email" value="{{ $employee->email }}" />
                 </div>
                 <div class="form-group">
-                    <label for="password">Mật khẩu:</label>
+                    <label for="password">Mật khẩu cũ:</label>
+                    <input type="password" class="form-control" name="password" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu mới:</label>
+                    <input type="password" class="form-control" name="password" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu mới(xác nhận):</label>
                     <input type="password" class="form-control" name="password" />
                 </div>
                 <div class="form-group">

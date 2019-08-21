@@ -19,32 +19,33 @@
             <h4>Ngày bắt đầu: {{ $project->start_date }}</h4>
             <h4>Ngày kết thúc dự kiến: {{ $project->end_date }}</h4>
             <h4>Danh sách nhân viên đã phân công:</h4>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>Nhân viên</td>
-                    <td>Từ ngày</td>
-                    <td>Đến ngày:</td>
-                    <td>Thao tác</td>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($project->employees as $employee)
-                    <tr>
-                        <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
-                        <td>{{ $employee->pivot->start_date}}</td>
-                        <td>{{ $employee->pivot->end_date}}</td>
-                        <td>
-                            <a class="btn btn-danger" href="{{ route('project-assign.destroy', ['projectId' => $project->id, 'employeeId' => $employee->id] ) }}">Delete</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-            <h3>Chọn nhân viên:</h3>
             <form method="post" action="{{ route('project-assign.update', $project->id) }}">
                 @method('PATCH')
                 @csrf
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>Nhân viên</td>
+                        <td>Từ ngày</td>
+                        <td>Đến ngày:</td>
+                        <td>Thao tác</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($project->employees as $employee)
+                        <tr>
+                            <td><input type="hidden" name="employee_id[]" value="{{ $employee->id }} " />{{ $employee->lastname }} {{ $employee->firstname }}</td>
+
+                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->start_date }}" /></td>
+                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->end_date }}" /></td>
+                            <td>
+                                <a class="btn btn-danger" onclick="deleteUserFromProject('{{ route('project-assign.destroy', ['projectId' => $project->id, 'employeeId' => $employee->id] ) }}', '{{ $employee->pivot->start_date }}', '{{ $employee->pivot->end_date }}')">Delete</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <h3>Chọn nhân viên:</h3>
                 <div class="form-group manager-employee">
                     <div class="form-inline">
                         <select name="employee_id[]" >
@@ -84,5 +85,10 @@
                 $(this).parent().remove();
             });
         });
+
+        function deleteUserFromProject(url, startDate, endDate) {
+            var newUrl = url + '?startDate=' + startDate + '&endDate=' + endDate;
+            window.location.href = newUrl;
+        }
     </script>
 @endsection

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Employee;
+use App\EmployProject;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class ProjectController extends Controller
 {
@@ -125,7 +127,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assign($project_id)
+    public function createAssign($project_id)
     {
         $project = Project::with('employees')->find($project_id);
         $employees = Employee::all();
@@ -141,7 +143,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assignUpdate(Request $request,$project_id)
+    public function updateAssign(Request $request,$project_id)
     {
         $project = Project::find($project_id);
         $employeeIds = $request->get('employee_id');
@@ -151,6 +153,9 @@ class ProjectController extends Controller
         $countEmployee = count($request->employee_id);
         for($i = 0; $i < $countEmployee; $i++){
             $employeeid =$employeeIds[$i];
+            if (is_null($employeeid)){
+                continue;
+            }
             $data = [
                 'start_date'=> $start_dates[$i],
                 'end_date'=> $end_dates[$i],
@@ -167,11 +172,16 @@ class ProjectController extends Controller
      * @param  int  $project_id,$employee_id
      * @return \Illuminate\Http\Response
      */
-    public function assignDestroy($projectId,$employeeId)
+    public function destroyAssign($projectId,$employeeId, Request $request)
     {
-        $project = Project::find($projectId);
+        $project = Project::findOrFail($projectId);
         if($project){
-            $destroy = $project->employees()->detach($employeeId);
+            $pivoteData = EmployProject::where('project_id', $projectId)
+                ->where('employee_id', $employeeId)
+                ->whereDate('start_date', $request->startDate)
+                ->whereDate('end_date', $request->endDate)
+                ->first();
+            $pivoteData->delete();
         }
 
         return redirect()->route('project-assign.edit',$projectId)->with('success', __('messages.project.delete.success'));
