@@ -15,7 +15,7 @@
                     <td>Tên</td>
                     <td>Website</td>
                     <td>Địa chỉ</td>
-                    <td colspan = 2>Thao tác</td>
+                    <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>

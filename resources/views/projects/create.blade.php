@@ -18,7 +18,7 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-                </div><br />
+                </div><br/>
             @endif
             <form method="post" action="{{ route('projects.store') }}">
                 @csrf
@@ -38,7 +38,8 @@
                     <label for="customer_id">Khách hàng phụ trách:</label>
                     <select name="customer_id">
                         @foreach($customers as $customer)
-                            <option value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                            <option
+                                value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -13,7 +13,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <br />
+                <br/>
             @endif
             <form method="post" action="{{ route('companies.update', $company->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
@@ -21,15 +21,15 @@
                 <div class="form-group">
 
                     <label for="name">Tên công ty:</label>
-                    <input type="text" class="form-control" name="name" value="{{ $company->name }}" />
+                    <input type="text" class="form-control" name="name" value="{{ $company->name }}"/>
                 </div>
                 <div class="form-group">
                     <label for="website">Website:</label>
-                    <input type="text" class="form-control" name="website" value="{{ $company->website }}" />
+                    <input type="text" class="form-control" name="website" value="{{ $company->website }}"/>
                 </div>
                 <div class="form-group">
                     <label for="adress">Địa chỉ :</label>
-                    <input type="text" class="form-control" name="address" value="{{ $company->address }}" />
+                    <input type="text" class="form-control" name="address" value="{{ $company->address }}"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
             </form>

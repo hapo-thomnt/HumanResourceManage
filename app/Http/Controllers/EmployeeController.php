@@ -15,6 +15,7 @@ class EmployeeController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +43,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreEmployee $request)
@@ -51,13 +52,13 @@ class EmployeeController extends Controller
 
         if ($request->hasFile('avatar')) {
             $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName  = basename($storagePath);
+            $imageName = basename($storagePath);
         } else {
-            $imageName= config('app.avatar_default');
+            $imageName = config('app.avatar_default');
         }
-        $input['avatar']  = $imageName;
+        $input['avatar'] = $imageName;
 
-        $input['password'] =  Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
 
         $user = Employee::create($input);
 
@@ -68,7 +69,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,7 +80,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -91,8 +92,8 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateEmployee $request, $id)
@@ -101,12 +102,12 @@ class EmployeeController extends Controller
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
             $imageName = basename($storagePath);
             $input['avatar'] = $imageName;
         }
 
-        $input['password'] =  Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
 
         $employee->update($input);
 
@@ -116,13 +117,13 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $contact = Employee::find($id);
-        if($contact){
+        if ($contact) {
             $destroy = Employee::destroy($id);
         }
 

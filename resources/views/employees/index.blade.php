@@ -1,6 +1,6 @@
 @extends('layout')
 @section('css')
-    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     <div class="row">
@@ -22,14 +22,14 @@
                     <td>Email</td>
                     <td>Ngày sinh</td>
                     <td>Địa chỉ</td>
-                    <td colspan = 2>Thao tác</td>
+                    <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($employees as $employee)
                     <tr>
                         <td>
-                            <img class="avatar"  src="{{ asset(config('app.file_path').$employee->avatar) }}" alt="avatar">
+                            <img class="avatar" src="{{ asset(config('app.file_path').$employee->avatar) }}" alt="avatar">
                         </td>
                         <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
                         <td>{{ $employee->email }}</td>

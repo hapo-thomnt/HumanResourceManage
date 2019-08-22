@@ -13,7 +13,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <br />
+                <br/>
             @endif
             <form method="post" action="{{ route('employees.update', $employee->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
@@ -21,37 +21,37 @@
                 <div class="form-group">
 
                     <label for="firstname">Tên:</label>
-                    <input type="text" class="form-control" name="firstname" value="{{ $employee->firstname }}" />
+                    <input type="text" class="form-control" name="firstname" value="{{ $employee->firstname }}"/>
                 </div>
 
                 <div class="form-group">
                     <label for="lastname">Họ:</label>
-                    <input type="text" class="form-control" name="lastname" value="{{ $employee->lastname }}" />
+                    <input type="text" class="form-control" name="lastname" value="{{ $employee->lastname }}"/>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="text" class="form-control" name="email" value="{{ $employee->email }}" />
+                    <input type="text" class="form-control" name="email" value="{{ $employee->email }}"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu cũ:</label>
-                    <input type="password" class="form-control" name="password" />
+                    <input type="password" class="form-control" name="password"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu mới:</label>
-                    <input type="password" class="form-control" name="password" />
+                    <input type="password" class="form-control" name="password"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu mới(xác nhận):</label>
-                    <input type="password" class="form-control" name="password" />
+                    <input type="password" class="form-control" name="password"/>
                 </div>
                 <div class="form-group">
                     <label for="adress">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday" value="{{ $employee->birthday }}" />
+                    <input type="text" class="form-control" name="birthday" value="{{ $employee->birthday }}"/>
                 </div>
                 <div class="form-group">
                     <label for="adress">Đại chỉ:</label>
-                    <input type="text" class="form-control" name="adress" value="{{ $employee->adress }}" />
+                    <input type="text" class="form-control" name="adress" value="{{ $employee->adress }}"/>
                 </div>
                 <div class="form-group">
                     <label for="avatar">Hình đại diện:</label>

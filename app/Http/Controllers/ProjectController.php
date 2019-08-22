@@ -16,6 +16,7 @@ class ProjectController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,13 +48,13 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $input = $request->all();
-        
+
         $record = Project::create($input);
 
         return redirect()->route('projects.index')
@@ -63,7 +64,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,7 +75,7 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -92,8 +93,8 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,13 +110,13 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $project = Project::find($id);
-        if($project){
+        if ($project) {
             $destroy = Project::destroy($id);
         }
 
@@ -143,58 +144,57 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function updateAssign(Request $request,$project_id)
+    public function updateAssign(Request $request, $project_id)
     {
         $project = Project::find($project_id);
         $employeeIds = $request->get('employee_id');
-        $start_dates= $request->get('start_date');
+        $start_dates = $request->get('start_date');
         $end_dates = $request->get('end_date');
-        $origin_start_dates= $request->get('origin_start_date');
+        $origin_start_dates = $request->get('origin_start_date');
         $origin_end_dates = $request->get('origin_end_date');
         $is_news = $request->get('is_new');
 
         $countEmployee = count($request->employee_id);
-        for($i = 0; $i < $countEmployee; $i++){
-            $employeeid =$employeeIds[$i];
-            if (is_null($employeeid)){
+        for ($i = 0; $i < $countEmployee; $i++) {
+            $employeeid = $employeeIds[$i];
+            if (is_null($employeeid)) {
                 continue;
             }
             $tempStartDate = date($start_dates[$i]);
             $tempStartDate = date($end_dates[$i]);
             $data = [
-                'start_date'=> date($start_dates[$i]),
-                'end_date'=> date($end_dates[$i]),
+                'start_date' => date($start_dates[$i]),
+                'end_date' => date($end_dates[$i]),
             ];
-            if(filter_var($is_news[$i],FILTER_VALIDATE_BOOLEAN)){
-                $project->employees()->attach($employeeid,$data);
-            }else{
+            if (filter_var($is_news[$i], FILTER_VALIDATE_BOOLEAN)) {
+                $project->employees()->attach($employeeid, $data);
+            } else {
                 $project = Project::findOrFail($project_id);
-                if($project){
+                if ($project) {
                     $pivoteData = EmployProject::where('project_id', $project_id)
                         ->where('employee_id', $employeeid)
                         ->whereDate('start_date', date($origin_start_dates[$i]))
                         ->whereDate('end_date', date($origin_end_dates[$i]))
-                        ->update(['start_date' =>  date($start_dates[$i]),
-                            'end_date'=>  date($end_dates[$i])]);
-
+                        ->update(['start_date' => date($start_dates[$i]),
+                            'end_date' => date($end_dates[$i])]);
                 }
             }
 
         }
 
-        return redirect()->route('project-assign.edit',$project_id)->with('success', __('messages.project.update.success'));
+        return redirect()->route('project-assign.edit', $project_id)->with('success', __('messages.project.update.success'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $project_id,$employee_id
+     * @param int $project_id ,$employee_id
      * @return \Illuminate\Http\Response
      */
-    public function destroyAssign($projectId,$employeeId, Request $request)
+    public function destroyAssign($projectId, $employeeId, Request $request)
     {
         $project = Project::findOrFail($projectId);
-        if($project){
+        if ($project) {
             $pivoteData = EmployProject::where('project_id', $projectId)
                 ->where('employee_id', $employeeId)
                 ->whereDate('start_date', $request->startDate)
@@ -203,6 +203,6 @@ class ProjectController extends Controller
             $pivoteData->delete();
         }
 
-        return redirect()->route('project-assign.edit',$projectId)->with('success', __('messages.project.delete.success'));
+        return redirect()->route('project-assign.edit', $projectId)->with('success', __('messages.project.delete.success'));
     }
 }
