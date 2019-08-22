@@ -23,7 +23,7 @@ Route::resources([
     'employees' => 'EmployeeController',
     'projects' => 'ProjectController',
 ]);
-Route::get('/project-assign/{project}/edit', 'ProjectController@createAssign')->name('project-assign.edit');
+Route::get('/project-assign/{project}/edit', 'ProjectController@editAssign')->name('project-assign.edit');
 Route::patch('/project-assign/{project}', 'ProjectController@updateAssign')->name('project-assign.update');
 Route::get('/project-assign/{projectId}/{employeeId}', 'ProjectController@destroyAssign')->name('project-assign.destroy');
 

@@ -127,7 +127,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createAssign($project_id)
+    public function editAssign($project_id)
     {
         $project = Project::with('employees')->find($project_id);
         $employees = Employee::all();
@@ -149,6 +149,8 @@ class ProjectController extends Controller
         $employeeIds = $request->get('employee_id');
         $start_dates= $request->get('start_date');
         $end_dates = $request->get('end_date');
+        $origin_start_dates= $request->get('origin_start_date');
+        $origin_end_dates = $request->get('origin_end_date');
         $is_news = $request->get('is_new');
 
         $countEmployee = count($request->employee_id);
@@ -160,8 +162,8 @@ class ProjectController extends Controller
             $tempStartDate = date($start_dates[$i]);
             $tempStartDate = date($end_dates[$i]);
             $data = [
-                'start_date'=> $tempStartDate,
-                'end_date'=> $tempStartDate,
+                'start_date'=> date($start_dates[$i]),
+                'end_date'=> date($end_dates[$i]),
             ];
             if(filter_var($is_news[$i],FILTER_VALIDATE_BOOLEAN)){
                 $project->employees()->attach($employeeid,$data);
@@ -170,10 +172,11 @@ class ProjectController extends Controller
                 if($project){
                     $pivoteData = EmployProject::where('project_id', $project_id)
                         ->where('employee_id', $employeeid)
-                        ->whereDate('start_date', $tempStartDate)
-                        ->whereDate('end_date', $tempStartDate)
-                        ->first();
-                    dd($pivoteData);
+                        ->whereDate('start_date', date($origin_start_dates[$i]))
+                        ->whereDate('end_date', date($origin_end_dates[$i]))
+                        ->update(['start_date' =>  date($start_dates[$i]),
+                            'end_date'=>  date($end_dates[$i])]);
+
                 }
             }
 

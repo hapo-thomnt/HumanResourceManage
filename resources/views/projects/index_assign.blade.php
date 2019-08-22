@@ -36,6 +36,8 @@
                         <tr>
                             <td><input type="hidden" name="employee_id[]" value="{{ $employee->id }} " />{{ $employee->lastname }} {{ $employee->firstname }}</td>
                             <input type="hidden" name="is_new[]" value="false" />
+                            <input type="hidden" name="origin_start_date[]" value="{{ $employee->pivot->start_date }}" />
+                            <input type="hidden" name="origin_end_date[]" value="{{ $employee->pivot->end_date }}" />
                             <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->start_date }}" /></td>
                             <td><input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $employee->pivot->end_date }}" /></td>
                             <td>
@@ -55,8 +57,8 @@
                             @endforeach
                         </select>
                         <input type="hidden" name="is_new[]" value="true" />
-                        <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $project->end_date }}" />
-                        <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $project->end_date }}" />
+                        <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]"  />
+                        <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" />
                         <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
                     </div>
                 </div>
@@ -78,8 +80,8 @@
                             @endforeach
                     </select>
                     <input type="hidden" name="is_new[]" value="true" />
-                    <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $project->end_date }}" />
-                        <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $project->end_date }}" />
+                    <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]"  />
+                        <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" />
                         <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
                     </div>`)
             });
