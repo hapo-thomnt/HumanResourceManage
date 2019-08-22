@@ -24,15 +24,30 @@
                 @csrf
                 <div class="form-group">
                     <label for="name">Họ:</label>
-                    <input type="lastname" class="form-control" name="lastname"/>
+                    <input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}"/>
+                    @if ($errors->first('lastname'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('lastname', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="firstname">Tên :</label>
-                    <input type="text" class="form-control" name="firstname"/>
+                    <input type="text" class="form-control" name="firstname" value="{{ old('firstname') }}"/>
+                    @if ($errors->first('firstname'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('firstname', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="text" class="form-control" name="email"/>
+                    <input type="text" class="form-control" name="email" value="{{ old('email') }}"/>
+                    @if ($errors->first('email'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="password">Mật khẩu:</label>
@@ -40,11 +55,11 @@
                 </div>
                 <div class="form-group">
                     <label for="birthday">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday"/>
+                    <input type="date" class="form-control" name="birthday" value="{{ old('birthday') }}"/>
                 </div>
                 <div class="form-group">
                     <label for="phone">Số điện thoại:</label>
-                    <input type="text" class="form-control" name="phone"/>
+                    <input type="text" class="form-control" name="phone" value="{{ old('phone') }}"/>
                 </div>
                 <div class="form-group">
                     <label for="company_id">Tên công ty:</label>

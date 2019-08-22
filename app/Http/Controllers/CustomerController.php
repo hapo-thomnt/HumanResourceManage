@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Customer;
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +16,7 @@ class CustomerController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -45,22 +48,22 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCustomerRequest $request)
     {
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
             $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName  = basename($storagePath);
+            $imageName = basename($storagePath);
         } else {
-            $imageName= config('app.avatar_default');
+            $imageName = config('app.avatar_default');
         }
-        $input['avatar']  = $imageName;
+        $input['avatar'] = $imageName;
 
-        $input['password'] =  Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
 
         $record = Customer::create($input);
 
@@ -71,7 +74,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -82,34 +85,38 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $customer = Customer::find($id);
-        return view('customers.edit', compact('customer'));
+        $companies = Company::all();
+        $data = [
+            'customer' => $customer,
+            'companies' => $companies,
+        ];
+        return view('customers.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCustomerRequest $request, $id)
     {
         $customer = Customer::findOrFail($id);
         $input = $request->except('avatar');
-
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
             $imageName = basename($storagePath);
             $input['avatar'] = $imageName;
         }
 
-        $input['password'] =  Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
 
         $customer->update($input);
 
@@ -119,13 +126,13 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $customer = Customer::find($id);
-        if($customer){
+        if ($customer) {
             $destroy = Customer::destroy($id);
         }
 

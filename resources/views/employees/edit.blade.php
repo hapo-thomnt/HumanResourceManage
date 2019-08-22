@@ -4,17 +4,6 @@
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
             <h1 class="display-3">Update a contact</h1>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                <br/>
-            @endif
             <form method="post" action="{{ route('employees.update', $employee->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
@@ -22,28 +11,31 @@
 
                     <label for="firstname">Tên:</label>
                     <input type="text" class="form-control" name="firstname" value="{{ $employee->firstname }}"/>
+                    @if ($errors->first('firstname'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('firstname', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="form-group">
                     <label for="lastname">Họ:</label>
                     <input type="text" class="form-control" name="lastname" value="{{ $employee->lastname }}"/>
+                    @if ($errors->first('lastname'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('lastname', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="text" class="form-control" name="email" value="{{ $employee->email }}"/>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu cũ:</label>
-                    <input type="password" class="form-control" name="password"/>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu mới:</label>
-                    <input type="password" class="form-control" name="password"/>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu mới(xác nhận):</label>
-                    <input type="password" class="form-control" name="password"/>
+                    @if ($errors->first('email'))
+                        <div class="alert alert-danger">
+                            {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="adress">Ngày sinh:</label>

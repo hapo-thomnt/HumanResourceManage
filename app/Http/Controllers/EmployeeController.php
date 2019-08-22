@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
-use App\Http\Requests\StoreEmployee;
-use App\Http\Requests\UpdateEmployee;
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\TestRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -46,7 +47,7 @@ class EmployeeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployee $request)
+    public function store(StoreEmployeeRequest $request)
     {
         $input = $request->except('avatar');
 
@@ -96,7 +97,7 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployee $request, $id)
+    public function update(UpdateEmployeeRequest $request, $id)
     {
         $employee = Employee::findOrFail($id);
         $input = $request->except('avatar');
@@ -106,8 +107,6 @@ class EmployeeController extends Controller
             $imageName = basename($storagePath);
             $input['avatar'] = $imageName;
         }
-
-        $input['password'] = Hash::make($input['password']);
 
         $employee->update($input);
 
