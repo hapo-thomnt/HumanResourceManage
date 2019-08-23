@@ -5,9 +5,9 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            @if(session()->get('success'))
-                <div class="alert alert-success">
-                    {{ session()->get('success') }}
+            @if(session('content'))
+                <div class="alert alert-{{ session('status') }}">
+                    {{ session('content') }}
                 </div>
             @endif
             <h2 class="display-4">Danh sách Dự án</h2>
@@ -29,7 +29,9 @@
                         <td>{{ $project->name }}</td>
                         <td>{{ $project->start_date }}</td>
                         <td>{{ $project->end_date }}</td>
-                        <td>{{ $project->customer->firstname }} {{ $project->customer->lastname }}</td>
+{{--                        <td>{{ $project->customer->firstname }} {{ $project->customer->lastname }}</td>--}}
+{{--                        <td>{{ dd($project->customer->firstname) }}</td>--}}
+                        <td>{{ $project->customer ? $project->customer->firstname : $project->customer }}</td>
                         <td>{{ $project->description }}</td>
                         <td>
                             <a href="{{ route('project-assign.edit',$project->id)}}" class="btn btn-primary">Phân công</a>

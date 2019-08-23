@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectHumanResource extends Model
+class DailyReport extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,10 +12,7 @@ class ProjectHumanResource extends Model
      * @var array
      */
     protected $fillable = [
-        'project_id',
         'employee_id',
-        'start_date',
-        'end_date',
-        'role',
+        'report_date',
     ];
 }

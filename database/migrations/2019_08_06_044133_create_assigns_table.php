@@ -21,7 +21,6 @@ class CreateAssignsTable extends Migration
             $table->string('name', 255);
             $table->string('description', 511);
             $table->integer('status');
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();

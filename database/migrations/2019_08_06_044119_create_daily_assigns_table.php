@@ -18,7 +18,6 @@ class CreateDailyAssignsTable extends Migration
             $table->bigInteger('assign_id');
             $table->float('spent_time');
             $table->bigInteger('daily_report_id');
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();

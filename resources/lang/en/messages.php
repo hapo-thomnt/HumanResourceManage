@@ -20,6 +20,7 @@ return [
         ],
         'update' => [
             'success' => 'Update Successfully',
+            'failure' => 'Update Failed! Please try later',
         ],
         'delete' => [
             'success' => 'Contact Deleted Successfully',
@@ -32,6 +33,7 @@ return [
         ],
         'update' => [
             'success' => 'Update Successfully',
+            'failure' => 'Update Failed! Please try later',
         ],
         'delete' => [
             'success' => 'Contact Deleted Successfully',
@@ -44,6 +46,7 @@ return [
         ],
         'update' => [
             'success' => 'Customer Update Successfully',
+            'failure' => 'Update Failed! Please try later',
         ],
         'delete' => [
             'success' => 'Customer Deleted Successfully',
@@ -56,6 +59,7 @@ return [
         ],
         'update' => [
             'success' => 'Project Update Successfully',
+            'failure' => 'Update Failed! Please try later',
         ],
         'delete' => [
             'success' => 'Project Deleted Successfully',

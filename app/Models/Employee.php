@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Employee extends Authenticatable
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -14,7 +17,6 @@ class Customer extends Model
     protected $fillable = [
         'email',
         'password',
-        'company_id',
         'firstname',
         'lastname',
         'phone',
@@ -33,18 +35,18 @@ class Customer extends Model
     ];
 
     /**
-     * Get the company that customer work for
+     * The attributes that should be cast to native types.
+     *
+     * @var array
      */
-    public function company()
-    {
-        return $this->belongsTo('App\Company');
-    }
-
+    protected $casts = [
+        'birthday' => 'date',
+    ];
     /**
-     * Get the customers work in company.
+     * Get the project that employees working in
      */
-    public function project()
+    public function projects()
     {
-        return $this->hasMany('App\Project');
+        return $this->belongsToMany(Project::class)->withPivot('start_date','end_date');
     }
 }

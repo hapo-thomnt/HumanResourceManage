@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\Employee;
+use App\Models\Customer;
+use App\Models\Employee;
 use App\EmployProject;
-use App\Project;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -24,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(config('app.paginate'));
+        $projects = Project::with('customer')->paginate(config('app.paginate'));
         $data = [
             'projects' => $projects,
         ];
@@ -56,9 +56,20 @@ class ProjectController extends Controller
         $input = $request->all();
 
         $record = Project::create($input);
+        if ($record) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.project.create.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.project.create.failure')
+            ];
+        }
 
         return redirect()->route('projects.index')
-            ->with('success', __('messages.project.create.success'));
+            ->with($message);
     }
 
     /**
@@ -81,7 +92,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $customers = Customer::all();
-        $project = Project::find($id);
+        $project = Project::findOrFail($id);
         $data = [
             'customers' => $customers,
             'project' => $project,
@@ -100,11 +111,19 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $project = Project::findOrFail($id);
-        $input = $request->all();
-
-        $project->update($input);
-
-        return redirect()->route('projects.index')->with('success', __('messages.project.update.success'));
+        $project->update($request->all());
+        if ($project) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.project.update.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.project.update.failure')
+            ];
+        }
+        return redirect()->route('projects.index')->with($message);
     }
 
     /**
@@ -115,12 +134,22 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $project = Project::find($id);
+        $project = Project::findOrFail($id);
+        $message = [
+            'status' => 'danger',
+            'content' => __('messages.project.delete.failure')
+        ];
         if ($project) {
             $destroy = Project::destroy($id);
+            if ($destroy) {
+                $message = [
+                    'status' => 'danger',
+                    'content' => __('messages.project.delete.success')
+                ];
+            }
         }
 
-        return redirect()->route('projects.index')->with('success', __('messages.project.delete.success'));
+        return redirect()->route('projects.index')->with($message);
     }
 
     /**
@@ -130,7 +159,7 @@ class ProjectController extends Controller
      */
     public function editAssign($project_id)
     {
-        $project = Project::with('employees')->find($project_id);
+        $project = Project::with('employees')->findOrFail($project_id);
         $employees = Employee::all();
         $data = [
             'project' => $project,
@@ -146,7 +175,7 @@ class ProjectController extends Controller
      */
     public function updateAssign(Request $request, $project_id)
     {
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
         $employeeIds = $request->get('employee_id');
         $start_dates = $request->get('start_date');
         $end_dates = $request->get('end_date');
@@ -156,8 +185,8 @@ class ProjectController extends Controller
 
         $countEmployee = count($request->employee_id);
         for ($i = 0; $i < $countEmployee; $i++) {
-            $employeeid = $employeeIds[$i];
-            if (is_null($employeeid)) {
+            $employeeId = $employeeIds[$i];
+            if (is_null($employeeId)) {
                 continue;
             }
             $tempStartDate = date($start_dates[$i]);
@@ -167,19 +196,18 @@ class ProjectController extends Controller
                 'end_date' => date($end_dates[$i]),
             ];
             if (filter_var($is_news[$i], FILTER_VALIDATE_BOOLEAN)) {
-                $project->employees()->attach($employeeid, $data);
+                $project->employees()->attach($employeeId, $data);
             } else {
                 $project = Project::findOrFail($project_id);
                 if ($project) {
                     $pivoteData = EmployProject::where('project_id', $project_id)
-                        ->where('employee_id', $employeeid)
+                        ->where('employee_id', $employeeId)
                         ->whereDate('start_date', date($origin_start_dates[$i]))
                         ->whereDate('end_date', date($origin_end_dates[$i]))
                         ->update(['start_date' => date($start_dates[$i]),
                             'end_date' => date($end_dates[$i])]);
                 }
             }
-
         }
 
         return redirect()->route('project-assign.edit', $project_id)->with('success', __('messages.project.update.success'));

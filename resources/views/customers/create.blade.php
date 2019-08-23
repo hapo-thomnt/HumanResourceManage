@@ -11,16 +11,7 @@
             Thêm Khách Hàng
         </div>
         <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div><br />
-            @endif
-            <form method="post" action="{{ route('customers.store') }}">
+            <form method="post" action="{{ route('customers.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="name">Họ:</label>

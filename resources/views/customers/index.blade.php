@@ -5,9 +5,9 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            @if(session()->get('success'))
-                <div class="alert alert-success">
-                    {{ session()->get('success') }}
+            @if(session('content'))
+                <div class="alert alert-{{ session('status') }}">
+                    {{ session('content') }}
                 </div>
             @endif
             <h2 class="display-4">Danh sách Khách hàng</h2>

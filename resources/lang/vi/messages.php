@@ -15,11 +15,12 @@ return [
 
     'employee' => [
         'create' => [
-            'success' => 'Đăng ký liên hệ thành công',
+            'success' => 'Đăng ký nhan vien thành công',
             'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
         ],
         'update' => [
             'success' => 'Cập nhật thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
         ],
         'delete' => [
             'success' => 'Xóa thành công',
@@ -32,6 +33,7 @@ return [
         ],
         'update' => [
             'success' => 'Cập nhật thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
         ],
         'delete' => [
             'success' => 'Xóa thành công',
@@ -44,6 +46,7 @@ return [
         ],
         'update' => [
             'success' => 'Cập nhật khách hàng thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
         ],
         'delete' => [
             'success' => 'Xóa khách hàng thành công',
@@ -56,9 +59,11 @@ return [
         ],
         'update' => [
             'success' => 'Cập nhật Dự án  thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
         ],
         'delete' => [
             'success' => 'Xóa Dự án  thành công',
+            'failure' => 'Có vấn đề xảy ra trong quá trình xóa. Hãy thử xóa lại sau nhé !',
         ],
     ],
 

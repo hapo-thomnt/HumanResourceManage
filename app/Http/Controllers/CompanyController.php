@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -42,9 +42,20 @@ class CompanyController extends Controller
         $input = $request->all();
 
         $company = Company::create($input);
+        if($company){
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.company.create.success')
+            ];
+        }else{
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.company.create.failure')
+            ];
+        }
 
         return redirect()->route('companies.index')
-            ->with('success', __('messages.company.create.success'));
+            ->with($message);
     }
 
     /**
@@ -66,7 +77,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         return view('companies.edit', compact('company'));
     }
 
@@ -80,10 +91,20 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $company = Company::findOrFail($id);
-        $input = $request->all();
-        $company->update($input);
+        $company->update($request->all());
 
-        return redirect()->route('companies.index')->with('success', __('messages.company.update.success'));
+        if($company){
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.company.update.success')
+            ];
+        }else{
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.company.update.failure')
+            ];
+        }
+        return redirect()->route('companies.index')->with($message);
     }
 
     /**
@@ -94,11 +115,21 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
+        $message = [
+            'status' => 'danger',
+            'content' => __('messages.company.delete.failure')
+        ];
         if ($company) {
             $destroy = Company::destroy($id);
+            if ($destroy) {
+                $message = [
+                    'status' => 'danger',
+                    'content' => __('messages.company.delete.success')
+                ];
+            }
         }
 
-        return redirect()->route('companies.index')->with('success', __('messages.company.delete.success'));
+        return redirect()->route('companies.index')->with($message);
     }
 }

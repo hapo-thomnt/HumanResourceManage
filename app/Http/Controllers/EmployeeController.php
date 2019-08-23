@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
+use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\TestRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
@@ -52,19 +52,27 @@ class EmployeeController extends Controller
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName = basename($storagePath);
+            $imageName = self::getAvatarLink($request);
         } else {
             $imageName = config('app.avatar_default');
         }
         $input['avatar'] = $imageName;
-
         $input['password'] = Hash::make($input['password']);
-
         $user = Employee::create($input);
+        if ($user) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.employee.create.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.employee.create.failure')
+            ];
+        }
 
         return redirect()->route('employees.index')
-            ->with('success', __('messages.employee.create.success'));
+            ->with($message);
     }
 
     /**
@@ -86,7 +94,7 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::findOrFail($id);
         return view('employees.edit', compact('employee'));
     }
 
@@ -103,14 +111,23 @@ class EmployeeController extends Controller
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName = basename($storagePath);
-            $input['avatar'] = $imageName;
+            $input['avatar'] = self::getAvatarLink($request);
         }
 
         $employee->update($input);
+        if ($employee) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.employee.update.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.employee.update.failure')
+            ];
+        }
 
-        return redirect()->route('employees.index')->with('success', __('messages.employee.update.success'));
+        return redirect()->route('employees.index')->with($message);
     }
 
     /**
@@ -121,11 +138,38 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        $contact = Employee::find($id);
+        $contact = Employee::findOrFail($id);
+        $message = [
+            'status' => 'danger',
+            'content' => __('messages.employee.delete.failure')
+        ];
         if ($contact) {
             $destroy = Employee::destroy($id);
+            if ($destroy) {
+                $message = [
+                    'status' => 'danger',
+                    'content' => __('messages.employee.delete.success')
+                ];
+            }
         }
 
-        return redirect()->route('employees.index')->with('success', __('messages.employee.delete.success'));
+        return redirect()->route('employees.index')->with($message);
     }
+
+    /**
+     * Save image uploaded .
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    private function getAvatarLink(Request $request)
+    {
+        $imageName = null;
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+        }
+        return $imageName;
+    }
+
 }

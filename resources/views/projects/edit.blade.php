@@ -34,7 +34,7 @@
                     <label for="customer_id">Khách hàng phụ trách:</label>
                     <select name="customer_id">
                         @foreach($customers as $customer)
-                            <option @if($project->customer->id == $customer->id) selected @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                            <option @if($project->customer?$project->customer->id == $customer->id: false) selected @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
                         @endforeach
                     </select>
                 </div>

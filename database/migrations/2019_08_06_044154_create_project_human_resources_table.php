@@ -20,7 +20,6 @@ class CreateProjectHumanResourcesTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('role');
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();

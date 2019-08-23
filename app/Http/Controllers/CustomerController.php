@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Customer;
+use App\Models\Company;
+use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
@@ -56,8 +56,7 @@ class CustomerController extends Controller
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName = basename($storagePath);
+            $imageName = self::getAvatarLink($request);
         } else {
             $imageName = config('app.avatar_default');
         }
@@ -66,9 +65,20 @@ class CustomerController extends Controller
         $input['password'] = Hash::make($input['password']);
 
         $record = Customer::create($input);
+        if ($record) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.customer.create.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.customer.create.failure')
+            ];
+        }
 
         return redirect()->route('customers.index')
-            ->with('success', __('messages.customer.create.success'));
+            ->with($message);
     }
 
     /**
@@ -90,7 +100,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::findOrFail($id);
         $companies = Company::all();
         $data = [
             'customer' => $customer,
@@ -111,16 +121,25 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
         $input = $request->except('avatar');
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
-            $imageName = basename($storagePath);
-            $input['avatar'] = $imageName;
+            $input['avatar'] = self::getAvatarLink($request);
         }
 
         $input['password'] = Hash::make($input['password']);
 
         $customer->update($input);
+        if ($customer) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.customer.update.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.customer.update.failure')
+            ];
+        }
 
-        return redirect()->route('customers.index')->with('success', __('messages.customer.update.success'));
+        return redirect()->route('customers.index')->with($message);
     }
 
     /**
@@ -131,11 +150,37 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::findOrFail($id);
+        $message = [
+            'status' => 'danger',
+            'content' => __('messages.customer.delete.failure')
+        ];
         if ($customer) {
             $destroy = Customer::destroy($id);
+            if ($destroy) {
+                $message = [
+                    'status' => 'danger',
+                    'content' => __('messages.customer.delete.success')
+                ];
+            }
         }
 
         return redirect()->route('customers.index')->with('success', __('messages.customer.delete.success'));
+    }
+
+    /**
+     * Save image uploaded .
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    private function getAvatarLink(Request $request)
+    {
+        $imageName = null;
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+        }
+        return $imageName;
     }
 }

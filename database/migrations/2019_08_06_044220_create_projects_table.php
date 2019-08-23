@@ -20,7 +20,6 @@ class CreateProjectsTable extends Migration
             $table->date('end_date');
             $table->integer('customer_id');
             $table->string('description', 511);
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();

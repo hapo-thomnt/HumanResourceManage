@@ -20,7 +20,6 @@ class ChangeNullableEmployeeTable extends Migration
             $table->date('birthday')->nullable()->change();
             $table->string('avatar', 255)->nullable()->change();
             $table->string('address', 511)->nullable()->change();
-
             $table->integer('created_by')->nullable()->change();
             $table->integer('updated_by')->nullable()->change();
         });
@@ -40,7 +39,6 @@ class ChangeNullableEmployeeTable extends Migration
             $table->date('birthday')->change();
             $table->string('avatar', 255)->change();
             $table->string('address', 511)->change();
-
             $table->integer('created_by')->change();
             $table->integer('updated_by')->change();
         });

@@ -18,7 +18,6 @@ class CreateCompaniesTable extends Migration
             $table->string('name', 255);
             $table->string('address', 511);
             $table->string('website', 255);
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();

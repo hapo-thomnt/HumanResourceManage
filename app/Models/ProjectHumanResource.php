@@ -1,11 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Assign extends Model
+class ProjectHumanResource extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -15,9 +14,8 @@ class Assign extends Model
     protected $fillable = [
         'project_id',
         'employee_id',
-        'code',
-        'name',
-        'description',
-        'status',
+        'start_date',
+        'end_date',
+        'role',
     ];
 }

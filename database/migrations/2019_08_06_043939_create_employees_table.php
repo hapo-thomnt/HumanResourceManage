@@ -23,7 +23,6 @@ class CreateEmployeesTable extends Migration
             $table->date('birthday');
             $table->string('avatar', 255);
             $table->string('address', 511);
-
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->softDeletes();
