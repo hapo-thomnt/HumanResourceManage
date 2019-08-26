@@ -178,7 +178,7 @@ class CustomerController extends Controller
     {
         $imageName = null;
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $storagePath = Storage::putFile(config('app.avatar_path'), $request->file('avatar'));
             $imageName = basename($storagePath);
         }
         return $imageName;

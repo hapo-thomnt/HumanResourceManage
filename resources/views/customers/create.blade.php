@@ -1,5 +1,7 @@
 @extends('layout')
-
+@section('css')
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
     <style>
         .uper {
@@ -62,10 +64,20 @@
                 </div>
                 <div class="form-group">
                     <label for="avatar">Upload Avatar:</label>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar"/>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar" onchange="loadFile(event)"/>
+                    <img class="preview_avatar hidden" id="output"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.classList.remove('hidden');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 @endsection

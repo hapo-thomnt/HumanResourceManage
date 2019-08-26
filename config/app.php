@@ -251,6 +251,18 @@ return [
 
 
     /*
+|--------------------------------------------------------------------------
+| Default avatar for user
+|--------------------------------------------------------------------------
+|
+| This key is used to define path to uploaded image
+|
+*/
+
+    'avatar_path' =>  env('AVATAR_PATH', 'public/avatar/'),
+
+
+    /*
     |--------------------------------------------------------------------------
     | Number of element in one page use pagination
     |--------------------------------------------------------------------------
@@ -259,5 +271,5 @@ return [
     |
     */
 
-    'paginate' =>  env('PAGINATE', 20),
+    'paginate' => env('PAGINATE', 20),
 ];

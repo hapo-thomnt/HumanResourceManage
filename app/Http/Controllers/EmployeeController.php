@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\TestRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,11 +23,15 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::paginate(config('app.paginate'));
+        $search = $request->get('keyword');
+        $employees = Employee::query();
+        if ($request) {
+            $employees->where('firstname', 'like', '%' . $search . '%');
+        }
         $data = [
-            'employees' => $employees,
+            'employees' => $employees->paginate(config('app.paginate')),
         ];
         return view('employees.index', $data);
     }
@@ -166,10 +171,25 @@ class EmployeeController extends Controller
     {
         $imageName = null;
         if ($request->hasFile('avatar')) {
-            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $storagePath = Storage::putFile(config('app.avatar_path'), $request->file('avatar'));
             $imageName = basename($storagePath);
         }
         return $imageName;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $search = $request->get('keyword');
+        $employees = DB::table('employees')->where('firstname', 'like', '%' . $search . '%')->paginate(config('app.paginate'));
+        $data = [
+            'employees' => $employees,
+        ];
+        return view('employees.index', $data);
     }
 
 }

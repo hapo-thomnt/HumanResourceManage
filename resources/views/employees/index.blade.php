@@ -14,6 +14,18 @@
             <div>
                 <a style="margin: 19px;" href="{{ route('employees.create')}}" class="btn btn-primary">Đăng ký nhân viên mới</a>
             </div>
+            <div class="col-md-4">
+                <form action="{{ route('employees.index') }}" method="get">
+                    @csrf
+                    <div class="input-group">
+                        <input type="search" name="keyword" class="form-control">
+                        <span class="input-group-prepend">
+                            <button type="submit" class="btn-primary">Search</button>
+                        </span>
+                    </div>
+                </form>
+
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -29,7 +41,8 @@
                 @foreach($employees as $employee)
                     <tr>
                         <td>
-                            <img class="avatar" src="{{ asset(config('app.file_path').$employee->avatar) }}" alt="avatar">
+                            <img class="avatar" src="{{ asset(config('app.file_path').$employee->avatar) }}"
+                                 alt="avatar">
                         </td>
                         <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
                         <td>{{ $employee->email }}</td>
