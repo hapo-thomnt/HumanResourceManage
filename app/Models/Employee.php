@@ -31,7 +31,7 @@ class Employee extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password', 'remember_token',
     ];
 
     /**
@@ -42,11 +42,42 @@ class Employee extends Authenticatable
     protected $casts = [
         'birthday' => 'date',
     ];
+
     /**
      * Get the project that employees working in
      */
     public function projects()
     {
-        return $this->belongsToMany(Project::class)->withPivot('start_date','end_date');
+        return $this->belongsToMany(Project::class)->withPivot('start_date', 'end_date');
+    }
+
+    /**
+     * Get the project that employees working in
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
+
+    /**
+     * Checks if Employee has access to $permissions.
+     */
+    public function hasAccess(array $permissions): bool
+    {
+        // check if the permission is available in any role
+        foreach ($this->roles as $role) {
+            if ($role->hasAccess($permissions)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the user belongs to role.
+     */
+    public function inRole(string $roleSlug)
+    {
+        return $this->roles()->where('slug', $roleSlug)->count() == 1;
     }
 }
