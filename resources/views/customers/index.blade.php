@@ -1,6 +1,6 @@
 @extends('layout')
 @section('css')
-    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     <div class="row">
@@ -10,6 +10,17 @@
                     {{ session('content') }}
                 </div>
             @endif
+            <div class="col-md-4">
+                <form action="{{ route('customers.index') }}" method="get">
+                    @csrf
+                    <div class="input-group">
+                        <input type="search" name="keyword" class="form-control" value="{{request('keyword')}}">
+                        <span class="input-group-prepend">
+                            <button type="submit" class="btn-primary">Search</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
             <h2 class="display-4">Danh sách Khách hàng</h2>
             <table class="table table-striped">
                 <thead>
@@ -20,14 +31,15 @@
                     <td>Điện thoại</td>
                     <td>Địa chỉ</td>
                     <td>Tên công ty</td>
-                    <td colspan = 2>Thao tác</td>
+                    <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($customers as $customer)
                     <tr>
                         <td>
-                            <img class="avatar"  src="{{ asset(config('app.file_path').$customer->avatar) }}" alt="avatar">
+                            <img class="avatar" src="{{ asset(config('app.file_path').$customer->avatar) }}"
+                                 alt="avatar">
                         </td>
                         <td>{{ $customer->firstname }} {{ $customer->lastname }}</td>
                         <td>{{ $customer->email }}</td>
@@ -49,7 +61,7 @@
                 </tbody>
             </table>
 
-            {{ $customers->links() }}
+            {{ $customers->appends($_GET)->links() }}
             <div>
             </div>
 @endsection

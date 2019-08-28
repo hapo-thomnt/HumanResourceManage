@@ -26,7 +26,6 @@ Route::resources([
 Route::get('/project-assign/{project}/edit', 'ProjectController@editAssign')->name('project-assign.edit');
 Route::patch('/project-assign/{project}', 'ProjectController@updateAssign')->name('project-assign.update');
 Route::get('/project-assign/{projectId}/{employeeId}', 'ProjectController@destroyAssign')->name('project-assign.destroy');
-//Route::get('employees/','EmployeeController@search')->name('employees.search');
 
 Auth::routes();
 

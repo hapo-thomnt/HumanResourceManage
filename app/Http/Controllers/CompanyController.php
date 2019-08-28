@@ -12,11 +12,17 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companies = Company::paginate(config('app.paginate'));
+        $search = $request->get('keyword');
+        $companies = Company::query();
+        if ($request) {
+            $companies->where('name', 'like', '%' . $search . '%')
+                ->orwhere('address', 'like', '%' . $search . '%')
+                ->orwhere('website', 'like', '%' . $search . '%');
+        }
         $data = [
-            'companies' => $companies,
+            'companies' => $companies->paginate(config('app.paginate')),
         ];
         return view('companies.index', $data);
     }

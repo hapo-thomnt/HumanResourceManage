@@ -22,11 +22,19 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::paginate(config('app.paginate'));
+        $search = $request->get('keyword');
+        $customers = Customer::query();
+        if ($request) {
+            $customers->where('firstname', 'like', '%' . $search . '%')
+                ->orwhere('lastname', 'like', '%' . $search . '%')
+                ->orwhere('email', 'like', '%' . $search . '%')
+                ->orwhere('phone', 'like', '%' . $search . '%')
+                ->orwhere('address', 'like', '%' . $search . '%');
+        }
         $data = [
-            'customers' => $customers,
+            'customers' => $customers->paginate(config('app.paginate')),
         ];
         return view('customers.index', $data);
     }

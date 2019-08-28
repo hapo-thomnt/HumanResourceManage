@@ -18,13 +18,12 @@
                 <form action="{{ route('employees.index') }}" method="get">
                     @csrf
                     <div class="input-group">
-                        <input type="search" name="keyword" class="form-control">
+                        <input type="search" name="keyword" class="form-control" value="{{request('keyword')}}">
                         <span class="input-group-prepend">
                             <button type="submit" class="btn-primary">Search</button>
                         </span>
                     </div>
                 </form>
-
             </div>
             <table class="table table-striped">
                 <thead>
@@ -63,7 +62,7 @@
                 </tbody>
             </table>
 
-            {{ $employees->links() }}
+            {{ $employees->appends($_GET)->links() }}
             <div>
             </div>
 @endsection

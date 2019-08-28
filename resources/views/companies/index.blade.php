@@ -8,6 +8,17 @@
                     {{ session('content') }}
                 </div>
             @endif
+            <div class="col-md-4">
+                <form action="{{ route('companies.index') }}" method="get">
+                    @csrf
+                    <div class="input-group">
+                        <input type="search" name="keyword" class="form-control" value="{{request('keyword')}}">
+                        <span class="input-group-prepend">
+                            <button type="submit" class="btn-primary">Search</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
             <h2 class="display-4">Danh sách Công Ty</h2>
             <table class="table table-striped">
                 <thead>
@@ -39,7 +50,7 @@
                 </tbody>
             </table>
 
-            {{ $companies->links() }}
+            {{ $companies->appends($_GET)->links() }}
             <div>
             </div>
 @endsection

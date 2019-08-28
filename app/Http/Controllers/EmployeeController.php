@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\TestRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +26,11 @@ class EmployeeController extends Controller
         $search = $request->get('keyword');
         $employees = Employee::query();
         if ($request) {
-            $employees->where('firstname', 'like', '%' . $search . '%');
+            $employees->where('firstname', 'like', '%' . $search . '%')
+                ->orwhere('lastname', 'like', '%' . $search . '%')
+                ->orwhere('email', 'like', '%' . $search . '%')
+                ->orwhere('phone', 'like', '%' . $search . '%')
+                ->orwhere('address', 'like', '%' . $search . '%');
         }
         $data = [
             'employees' => $employees->paginate(config('app.paginate')),
@@ -175,21 +177,6 @@ class EmployeeController extends Controller
             $imageName = basename($storagePath);
         }
         return $imageName;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $search = $request->get('keyword');
-        $employees = DB::table('employees')->where('firstname', 'like', '%' . $search . '%')->paginate(config('app.paginate'));
-        $data = [
-            'employees' => $employees,
-        ];
-        return view('employees.index', $data);
     }
 
 }
