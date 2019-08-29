@@ -38,6 +38,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $this->authorize('create-project');
         $customers = Customer::all();
         $data = [
             'customers' => $customers,
@@ -91,6 +92,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit-project');
         $customers = Customer::all();
         $project = Project::findOrFail($id);
         $data = [

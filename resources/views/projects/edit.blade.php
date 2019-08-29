@@ -15,38 +15,36 @@
                 </div>
                 <br/>
             @endif
-            @can('edit-project')
-                <form method="post" action="{{ route('projects.update', $project->id) }}" enctype="multipart/form-data">
-                    @method('PATCH')
-                    @csrf
-                    <div class="form-group">
-                        <label for="name">Tên project:</label>
-                        <input type="text" class="form-control" name="name" value="{{ $project->name }}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="start_date">Ngày bắt đầu :</label>
-                        <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="end_date">Ngày kết thúc:</label>
-                        <input type="date" class="form-control" name="end_date" value="{{ $project->end_date }}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="customer_id">Khách hàng phụ trách:</label>
-                        <select name="customer_id">
-                            @foreach($customers as $customer)
-                                <option @if($project->customer?$project->customer->id == $customer->id: false) selected
-                                        @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Mô tả:</label>
-                        <input type="text" class="form-control" name="description" value="{{ $project->description }}"/>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Đăng ký</button>
-                </form>
-            @endcan
+            <form method="post" action="{{ route('projects.update', $project->id) }}" enctype="multipart/form-data">
+                @method('PATCH')
+                @csrf
+                <div class="form-group">
+                    <label for="name">Tên project:</label>
+                    <input type="text" class="form-control" name="name" value="{{ $project->name }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="start_date">Ngày bắt đầu :</label>
+                    <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="end_date">Ngày kết thúc:</label>
+                    <input type="date" class="form-control" name="end_date" value="{{ $project->end_date }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="customer_id">Khách hàng phụ trách:</label>
+                    <select name="customer_id">
+                        @foreach($customers as $customer)
+                            <option @if($project->customer?$project->customer->id == $customer->id: false) selected
+                                    @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Mô tả:</label>
+                    <input type="text" class="form-control" name="description" value="{{ $project->description }}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </form>
         </div>
     </div>
 @endsection
