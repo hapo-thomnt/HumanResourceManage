@@ -59,6 +59,9 @@
                     <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar" onchange="loadFile(event)"/>
                     <img class="preview_avatar hidden" id="output"/>
                 </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control" name="role" value="0"/>
+                </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>
         </div>

@@ -34,6 +34,6 @@ class Project extends Model
      */
     public function employees()
     {
-        return $this->belongsToMany(Employee::class)->withPivot('start_date','end_date');
+        return $this->belongsToMany(Employee::class)->withPivot('start_date','end_date','role');
     }
 }

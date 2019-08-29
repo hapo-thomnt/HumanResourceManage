@@ -14,6 +14,8 @@
     @yield('css')
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- my style -->
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css"/>
 </head>
 <body class="hold-transition sidebar-mini layout-footer-fixed">
 <!-- Site wrapper -->
@@ -47,7 +49,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="../../index3.html" class="brand-link">
+        <a href="https://haposoft.com/vi" class="brand-link">
             <span class="brand-text font-weight-light">Haposoft</span>
         </a>
 
@@ -56,10 +58,10 @@
             <!-- Sidebar user (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img class="avatar" src="{{ asset(config('app.file_path').auth()->user()->avatar) }}" alt="avatar">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Thơm</a>
+                    <a href="{{ route('employees.edit',auth()->user()->id)}}" class="d-block">{{auth()->user()->lastname}} {{auth()->user()->firstname }}</a>
                 </div>
             </div>
 

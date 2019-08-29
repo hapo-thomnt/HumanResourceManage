@@ -28,45 +28,68 @@
                         <td>Nhân viên</td>
                         <td>Từ ngày</td>
                         <td>Đến ngày:</td>
-                        <td>Thao tác</td>
+                        <td>Vai trò</td>
+                        <td @cannot('update-assign-project', $project)   hidden @endcannot>Thao tác</td>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($project->employees as $employee)
                         <tr>
-                            <td><input type="hidden" name="employee_id[]" value="{{ $employee->id }} "/>{{ $employee->lastname }} {{ $employee->firstname }}
+                            <td><input type="hidden" name="employee_id[]"
+                                       value="{{ $employee->id }} "/>{{ $employee->lastname }} {{ $employee->firstname }}
                             </td>
                             <input type="hidden" name="is_new[]" value="false"/>
                             <input type="hidden" name="origin_start_date[]" value="{{ $employee->pivot->start_date }}"/>
                             <input type="hidden" name="origin_end_date[]" value="{{ $employee->pivot->end_date }}"/>
-                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]" value="{{ $employee->pivot->start_date }}"/></td>
-                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" value="{{ $employee->pivot->end_date }}"/></td>
+                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]"
+                                       value="{{ $employee->pivot->start_date }}"/></td>
+                            <td><input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]"
+                                       value="{{ $employee->pivot->end_date }}"/></td>
                             <td>
-                                <a class="btn btn-danger"
+                                <select name="role[]" class="form-control">
+                                    @foreach(config('app.project_role') as $key => $role)
+                                        <option @if($role == $employee->pivot->role) selected
+                                                @endif value="{{ $role }}">
+                                            {{ __("app.project_role.$key") }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" @cannot('update-assign-project', $project)   hidden @endcannot
                                    onclick="deleteUserFromProject('{{ route('project-assign.destroy', ['projectId' => $project->id, 'employeeId' => $employee->id] ) }}', '{{ $employee->pivot->start_date }}', '{{ $employee->pivot->end_date }}')">Delete</a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-                <h3>Chọn nhân viên:</h3>
-                <div class="form-group manager-employee">
-                    <div class="form-inline">
-                        <select name="employee_id[]">
-                            <option></option>
-                            @foreach($employees as $employee)
-                                <option
-                                    value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
-                            @endforeach
-                        </select>
-                        <input type="hidden" name="is_new[]" value="true"/>
-                        <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]"/>
-                        <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]"/>
-                        <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
+                <div @cannot('update-assign-project', $project)   hidden @endcannot>
+                    <h3>Thêm mới nhân viên vào dự án:</h3>
+                    <div class="form-group manager-employee">
+                        <div class="form-inline">
+                            <select name="employee_id[]" class="form-control">
+                                <option></option>
+                                @foreach($employees as $employee)
+                                    <option
+                                        value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="is_new[]" value="true"/>
+                            <input type="date" class="form-control" name="start_date[]"/>
+                            <input type="date" class="form-control" name="end_date[]"/>
+                            <select name="role[]" class="form-control">
+                                @foreach(config('app.project_role') as $key => $role)
+                                    <option value="{{ $role }}">
+                                        {{ __("app.project_role.$key") }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
+                        </div>
                     </div>
+                    <button type="button" @cannot('update-assign-project', $project)   disabled @endcannot class="btn btn-xs btn-primary button-add-employee">Thêm</button>
+                    <button type="submit" @cannot('update-assign-project', $project)   disabled @endcannot class="btn btn-primary">Cập nhật phân công</button>
                 </div>
-                <button type="button" class="btn btn-xs btn-primary button-add-employee">Thêm</button>
-                <button type="submit" class="btn btn-primary">Cập nhật phân công</button>
             </form>
         </div>
     </div>
@@ -85,8 +108,15 @@
                     <input type="hidden" name="is_new[]" value="true" />
                     <input type="date" class="form-control mb-2 mr-sm-2" name="start_date[]"  />
                         <input type="date" class="form-control mb-2 mr-sm-2" name="end_date[]" />
-                        <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
-                    </div>`)
+                        <select name="role[]" class="form-control">
+                            @foreach(config('app.project_role') as $key => $role)
+                    <option value="{{ $role }}">
+                                    {{ __("app.project_role.$key") }}
+                    </option>
+                    @endforeach
+                    </select>
+                    <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
+                </div>`)
             });
             $(document).on('click', '.button-delete-employee', function () {
                 $(this).parent().remove();

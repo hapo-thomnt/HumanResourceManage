@@ -228,38 +228,38 @@ return [
 
     ],
     /*
- |--------------------------------------------------------------------------
- | File Path
- |--------------------------------------------------------------------------
- |
- | This key is used to define path to uploaded image
- |
- */
+     |--------------------------------------------------------------------------
+     | File Path
+     |--------------------------------------------------------------------------
+     |
+     | This key is used to define path to uploaded image
+     |
+     */
 
     'file_path' => env('FILE_PATH', '/'),
 
     /*
-|--------------------------------------------------------------------------
-| Default avatar for user
-|--------------------------------------------------------------------------
-|
-| This key is used to define path to uploaded image
-|
-*/
+    |--------------------------------------------------------------------------
+    | Default avatar for user
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to define path to uploaded image
+    |
+    */
 
     'avatar_default' => 'avatar.png',
 
 
     /*
-|--------------------------------------------------------------------------
-| Default avatar for user
-|--------------------------------------------------------------------------
-|
-| This key is used to define path to uploaded image
-|
-*/
+    |--------------------------------------------------------------------------
+    | Default avatar for user
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to define path to uploaded image
+    |
+    */
 
-    'avatar_path' =>  env('AVATAR_PATH', 'public/avatar/'),
+    'avatar_path' => env('AVATAR_PATH', 'public/avatar/'),
 
 
     /*
@@ -272,4 +272,32 @@ return [
     */
 
     'paginate' => env('PAGINATE', 20),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Number of element in one page use pagination
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to define Number of element in one page use pagination
+    |
+    */
+
+    'employee_role' => [
+        'admin' => 0,
+        'normal' => 1,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Number of element in one page use pagination
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to define Number of element in one page use pagination
+    |
+    */
+
+    'project_role' => [
+        'leader' => 0,
+        'member' => 1,
+    ],
 ];

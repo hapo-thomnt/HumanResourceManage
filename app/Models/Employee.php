@@ -23,6 +23,7 @@ class Employee extends Authenticatable
         'birthday',
         'avatar',
         'address',
+        'role',
     ];
 
     /**
@@ -48,7 +49,7 @@ class Employee extends Authenticatable
      */
     public function projects()
     {
-        return $this->belongsToMany(Project::class)->withPivot('start_date', 'end_date');
+        return $this->belongsToMany(Project::class)->withPivot('start_date', 'end_date','role');
     }
 
     /**

@@ -29,8 +29,6 @@
                         <td>{{ $project->name }}</td>
                         <td>{{ $project->start_date }}</td>
                         <td>{{ $project->end_date }}</td>
-{{--                        <td>{{ $project->customer->firstname }} {{ $project->customer->lastname }}</td>--}}
-{{--                        <td>{{ dd($project->customer->firstname) }}</td>--}}
                         <td>{{ $project->customer ? $project->customer->firstname : $project->customer }}</td>
                         <td>{{ $project->description }}</td>
                         <td>
@@ -43,7 +41,7 @@
                             <form action="{{ route('projects.destroy', $project->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Delete</button>
+                                <button class="btn btn-danger"  @cannot('delete-project')   disabled    @endcannot    type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>

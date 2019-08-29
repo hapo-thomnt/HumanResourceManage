@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Employee;
-use App\EmployProject;
+use App\Models\EmployProject;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -92,9 +92,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit-project');
+        $project = Project::with('employees')->findOrFail($id);
         $customers = Customer::all();
-        $project = Project::findOrFail($id);
         $data = [
             'customers' => $customers,
             'project' => $project,
@@ -184,6 +183,7 @@ class ProjectController extends Controller
         $origin_start_dates = $request->get('origin_start_date');
         $origin_end_dates = $request->get('origin_end_date');
         $is_news = $request->get('is_new');
+        $roles = $request->get('role');
 
         $countEmployee = count($request->employee_id);
         for ($i = 0; $i < $countEmployee; $i++) {
@@ -191,15 +191,17 @@ class ProjectController extends Controller
             if (is_null($employeeId)) {
                 continue;
             }
-            $tempStartDate = date($start_dates[$i]);
-            $tempStartDate = date($end_dates[$i]);
+
             $data = [
                 'start_date' => date($start_dates[$i]),
                 'end_date' => date($end_dates[$i]),
+                'role' => $roles[$i],
             ];
             if (filter_var($is_news[$i], FILTER_VALIDATE_BOOLEAN)) {
+                //update information of employee in project
                 $project->employees()->attach($employeeId, $data);
             } else {
+                //add new employee to project
                 $project = Project::findOrFail($project_id);
                 if ($project) {
                     $pivoteData = EmployProject::where('project_id', $project_id)
@@ -207,7 +209,8 @@ class ProjectController extends Controller
                         ->whereDate('start_date', date($origin_start_dates[$i]))
                         ->whereDate('end_date', date($origin_end_dates[$i]))
                         ->update(['start_date' => date($start_dates[$i]),
-                            'end_date' => date($end_dates[$i])]);
+                            'end_date' => date($end_dates[$i]),
+                            'role' => $roles[$i]]);
                 }
             }
         }
