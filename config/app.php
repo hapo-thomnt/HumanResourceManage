@@ -259,7 +259,7 @@ return [
 |
 */
 
-    'avatar_path' =>  env('AVATAR_PATH', 'public/avatar/'),
+    'avatar_path' => env('AVATAR_PATH', 'public/avatar/'),
 
 
     /*
@@ -272,4 +272,10 @@ return [
     */
 
     'paginate' => env('PAGINATE', 20),
+
+
+    'employee_role' => [
+        'admin' => 0,
+        'normal' => 1,
+    ]
 ];

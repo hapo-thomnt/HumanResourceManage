@@ -29,10 +29,14 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         Gate::define('edit-project',function($user){
+
             return true;
         });
         Gate::define('create-project',function($user){
-            return true;
+           if($user->role=== config('app.employee_role.admin')){
+               return true;
+           }
+            return false;
         });
     }
 }
