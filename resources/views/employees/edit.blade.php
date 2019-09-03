@@ -41,11 +41,22 @@
                 </div>
                 <div class="form-group">
                     <label for="adress">Ngày sinh:</label>
-                    <input type="text" class="form-control" name="birthday" value="{{ $employee->birthday }}"/>
+                    <input type="date" class="form-control" name="birthday" value="{{ $employee->birthday }}"/>
                 </div>
                 <div class="form-group">
                     <label for="adress">Đại chỉ:</label>
                     <input type="text" class="form-control" name="adress" value="{{ $employee->adress }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="role">Loại nhân viên:</label>
+                    <select name="role" class="form-control">
+                        @foreach(config('app.employee_role') as $key => $role)
+                            <option @if($role == $employee->role) selected
+                                    @endif value="{{ $role }}">
+                                {{ __("app.employee_role.$key") }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="avatar">Hình đại diện:</label>

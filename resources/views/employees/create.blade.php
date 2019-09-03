@@ -60,7 +60,14 @@
                     <img class="preview_avatar hidden" id="output"/>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control" name="role" value="0"/>
+                    <label for="role">Loại nhân viên:</label>
+                    <select name="role" class="form-control">
+                        @foreach(config('app.employee_role') as $key => $role)
+                            <option value="{{ $role }}">
+                                {{ __("app.employee_role.$key") }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>

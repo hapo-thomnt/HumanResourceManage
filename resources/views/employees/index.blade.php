@@ -31,6 +31,7 @@
                     <td>Avatar</td>
                     <td>Họ Tên</td>
                     <td>Email</td>
+                    <td>Loại nhân viên</td>
                     <td>Ngày sinh</td>
                     <td>Địa chỉ</td>
                     <td colspan=2>Thao tác</td>
@@ -45,7 +46,13 @@
                         </td>
                         <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
                         <td>{{ $employee->email }}</td>
-                        <td>{{ $employee->birthday }}</td>
+                        <td>
+                            @foreach(config('app.employee_role') as $key => $role)
+                                @if($role == $employee->role) {{ __("app.employee_role.$key") }}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>{{  date('d-m-Y', strtotime($employee->birthday))}}</td>
                         <td>{{ $employee->adress }}</td>
                         <td>
                             <a href="{{ route('employees.edit',$employee->id)}}" class="btn btn-primary">Edit</a>
