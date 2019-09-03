@@ -9,5 +9,11 @@ return [
         'admin' => 'Admin',
         'normal' => 'Nhân viên Thường',
     ],
+    'task_status' => [
+        'new' => 'Mới',
+        'doing' => 'Đang làm',
+        'done' => 'Xong',
+        'backlog' => 'Tạm hoãn',
+    ],
 
 ];

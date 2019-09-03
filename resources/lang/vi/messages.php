@@ -66,5 +66,19 @@ return [
             'failure' => 'Có vấn đề xảy ra trong quá trình xóa. Hãy thử xóa lại sau nhé !',
         ],
     ],
+    'task' => [
+        'create' => [
+            'success' => 'Đăng ký Task mới thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật Task  thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
+        ],
+        'delete' => [
+            'success' => 'Xóa Task  thành công',
+            'failure' => 'Có vấn đề xảy ra trong quá trình xóa. Hãy thử xóa lại sau nhé !',
+        ],
+    ],
 
 ];

@@ -65,5 +65,18 @@ return [
             'success' => 'Project Deleted Successfully',
         ],
     ],
+    'task' => [
+        'create' => [
+            'success' => 'Task Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Task Update Successfully',
+            'failure' => 'Update Failed! Please try later',
+        ],
+        'delete' => [
+            'success' => 'Task Deleted Successfully',
+        ],
+    ],
 
 ];

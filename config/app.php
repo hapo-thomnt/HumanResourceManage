@@ -275,10 +275,9 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Number of element in one page use pagination
+    | role/right of employee in Company
     |--------------------------------------------------------------------------
     |
-    | This key is used to define Number of element in one page use pagination
     |
     */
 
@@ -289,15 +288,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Number of element in one page use pagination
+    | role of a member in project
     |--------------------------------------------------------------------------
     |
-    | This key is used to define Number of element in one page use pagination
     |
     */
 
     'project_role' => [
         'leader' => 0,
         'member' => 1,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | assign status
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
+    'task_status' => [
+        'new' => 0,
+        'doing' => 1,
+        'done' => 2,
+        'backlog' => 3,
     ],
 ];

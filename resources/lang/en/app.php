@@ -9,4 +9,11 @@ return [
         'admin' => 'Admin',
         'normal' => 'Normal',
     ],
+
+    'task_status' => [
+        'new' => 'New',
+        'doing' => 'Doing',
+        'done' => 'Done',
+        'backlog' => 'Backlog',
+    ],
 ];

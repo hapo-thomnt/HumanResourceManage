@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::resources([
-    'assigns' => 'AssignController',
+    'tasks' => 'TaskController',
     'companies' => 'CompanyController',
     'customers' => 'CustomerController',
-    'daily-assigns' => 'DailyAssignController',
+    'daily-tasks' => 'DailyAssignController',
     'daily-reports' => 'DailyReportController',
     'employees' => 'EmployeeController',
     'projects' => 'ProjectController',
