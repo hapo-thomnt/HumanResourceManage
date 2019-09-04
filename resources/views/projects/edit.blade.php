@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả:</label>
-                    <input type="text" class="form-control" name="description" value="{{ $project->description }}"/>
+                    <textarea class="form-control" name="description"/> {{ $project->description }}</textarea>
                 </div>
                 <button   @cannot('edit-project', $project)   disabled    @endcannot       type="submit" class="btn btn-primary">Cập Nhật</button>
             </form>

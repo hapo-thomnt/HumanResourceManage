@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả:</label>
-                    <input type="text" class="form-control" name="description"/>
+                    <textarea class="form-control" name="description"/></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
             </form>

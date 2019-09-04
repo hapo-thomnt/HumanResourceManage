@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
-            <h1 class="display-3">Cập nhật thông tin dự án</h1>
+            <h1 class="display-3">Cập nhật task</h1>
 
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -15,35 +15,51 @@
                 </div>
                 <br/>
             @endif
-            <form method="post" action="{{ route('projects.update', $project->id) }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('tasks.update', $task->id) }}">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">
-                    <label for="name">Tên project:</label>
-                    <input type="text" class="form-control" name="name" value="{{ $project->name }}"/>
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" name="name" value ="{{$task->name}}"/>
                 </div>
                 <div class="form-group">
-                    <label for="start_date">Ngày bắt đầu :</label>
-                    <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}"/>
+                    <label for="code">Code:</label>
+                    <input type="text" class="form-control" name="code" value ="{{$task->code}}"/>
                 </div>
                 <div class="form-group">
-                    <label for="end_date">Ngày kết thúc:</label>
-                    <input type="date" class="form-control" name="end_date" value="{{ $project->end_date }}"/>
+                    <label for="status">Trạng thái:</label>
+                    <select name="status" class="form-control">
+                        @foreach(config('app.task_status') as $key => $value)
+                            <option @if($value == $task->status) selected
+                                    @endif value="{{ $value }}">
+                                {{ __("app.task_status.$key") }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <div >
-                    <label for="customer_id">Khách hàng phụ trách:</label>
-                    <select name="customer_id" class="form-group">
-                        @foreach($customers as $customer)
-                            <option @if($project->customer?$project->customer->id == $customer->id: false) selected
-                                    @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                <div class="form-group">
+                    <label for="project_id">Thuộc dự án:</label>
+                    <select name="project_id" class="form-control">
+                        @foreach($projects as $project)
+                            <option @if($task->project?$task->project->id == $project->id: false) selected @endif
+                                value="{{$project->id}}">{{ $project->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="employee_id">Nhân viên phụ trách:</label>
+                    <select name="employee_id" class="form-control">
+                        @foreach($employees as $employee)
+                            <option @if($task->employee?$task->employee->id == $employee->id: false) selected @endif
+                            value="{{$employee->id}}">{{ $employee->lastname }}{{ $employee->firstname }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả:</label>
-                    <input type="text" class="form-control" name="description" value="{{ $project->description }}"/>
+                    <textarea class="form-control" name="description"/></textarea>
                 </div>
-                <button   @cannot('edit-project', $project)   disabled    @endcannot       type="submit" class="btn btn-primary">Cập Nhật</button>
+                <button   @cannot('edit-task', $task->project->id)   disabled    @endcannot       type="submit" class="btn btn-primary">Cập Nhật</button>
             </form>
         </div>
     </div>

@@ -25,7 +25,7 @@ class Task extends Model
     /**
      * Get the company that customer work for
      */
-    public function projects()
+    public function project()
     {
         return $this->belongsTo(Project::class);
     }
@@ -33,7 +33,7 @@ class Task extends Model
     /**
      * Get the employee that  working in current project
      */
-    public function employees()
+    public function employee()
     {
         return $this->belongsTo(Employee::class);
     }

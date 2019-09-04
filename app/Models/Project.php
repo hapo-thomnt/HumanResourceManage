@@ -36,4 +36,12 @@ class Project extends Model
     {
         return $this->belongsToMany(Employee::class)->withPivot('start_date','end_date','role');
     }
+
+    /**
+     * Get the task in project
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -81,4 +81,12 @@ class Employee extends Authenticatable
     {
         return $this->roles()->where('slug', $roleSlug)->count() == 1;
     }
+
+    /**
+     * Get the task assigned to user
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

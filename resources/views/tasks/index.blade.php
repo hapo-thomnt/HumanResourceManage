@@ -1,6 +1,6 @@
 @extends('layout')
 @section('css')
-    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     <div class="row">
@@ -10,7 +10,51 @@
                     {{ session('content') }}
                 </div>
             @endif
-            <h2 class="display-4">Danh sách Dự án</h2>
+            <h2 class="display-4">Danh sách Task</h2>
+            <form class="form-inline" action="{{ route('tasks.index') }}" method="get">
+                @csrf
+                <div class="form-group">
+                    <label for="status">Trạng thái:</label>
+                    <select name="status" class="form-control">
+                        <option selected value=""></option>
+                        @foreach(config('app.task_status') as $key => $value)
+                            <option @if($value == request('status') && request('status')!= null )  selected
+                                    @endif value="{{ $value }}">
+                                {{ __("app.task_status.$key") }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="code">Code:</label>
+                    <input type="search" name="code" class="form-control" value="{{request('code')}}">
+                </div>
+                <div class="form-group">
+                    <label for="name">Tên:</label>
+                    <input type="search" name="name" class="form-control" value="{{request('name')}}">
+                </div>
+                <div class="form-group">
+                    <label for="project_id">Project:</label>
+                    <select name="project_id" class="form-control">
+                        <option selected value=""></option>
+                        @foreach($projects as $project)
+                            <option @if(request('project_id') == $project->id) selected @endif
+                            value="{{$project->id}}">{{ $project->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="employee_id">Nhân viên phụ trách:</label>
+                    <select name="employee_id" class="form-control">
+                        <option selected value=""></option>
+                        @foreach($employees as $employee)
+                            <option @if(request('employee_id') == $employee->id) selected @endif
+                            value="{{$employee->id}}">{{ $employee->lastname }}{{ $employee->firstname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -20,7 +64,7 @@
                     <td>Nhân viên phụ trách</td>
                     <td>Thuộc Dự án</td>
                     <td>Mô tả</td>
-                    <td colspan = 2>Thao tác</td>
+                    <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>

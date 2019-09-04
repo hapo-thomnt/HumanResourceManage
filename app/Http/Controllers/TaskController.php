@@ -6,9 +6,15 @@ use App\Models\Employee;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Collection;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,14 +30,29 @@ class TaskController extends Controller
 
         $tasks = Task::query();
         if ($request) {
-            $tasks->where('project_id',$project_id )
-                ->orwhere('employee_id', $employee_id )
-                ->orwhere('code', 'like', '%' . $code . '%')
-                ->orwhere('name', 'like', '%' . $name . '%')
-                ->orwhere('status', $status );
+            $tasks->when($project_id, function ($query, $project_id) {
+                return $query->where('project_id', $project_id);
+            })
+                ->when($employee_id, function ($query, $employee_id) {
+                    return $query->where('employee_id', $employee_id);
+                })
+                ->when($code, function ($query, $code) {
+                    return $query->where('code', 'like', '%' . $code . '%');
+                })
+                ->when($name, function ($query, $name) {
+                    return $query->where('name', 'like', '%' . $name . '%');
+                })
+                ->when($status, function ($query, $status) {
+                    return $query->where('status', $status);
+                });
         }
+
+        $projects = Project::all();
+        $employees= Employee::all();
         $data = [
             'tasks' => $tasks->paginate(config('app.paginate')),
+            'projects' => $projects,
+            'employees' => $employees,
         ];
         return view('tasks.index', $data);
     }
@@ -55,7 +76,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -82,7 +103,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -93,34 +114,70 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $task = Task::with('employee', 'project')->findOrFail($id);
+        $projects = Project::all();
+        $projectEmployees = self::getEmployeeInProject($task->project->id);
+        $data = [
+            'task' => $task,
+            'projects' => $projects,
+            'employees' => $projectEmployees,
+        ];
+
+        return view('tasks.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->update($request->all());
+        if ($task) {
+            $message = [
+                'status' => 'success',
+                'content' => __('messages.task.update.success')
+            ];
+        } else {
+            $message = [
+                'status' => 'danger',
+                'content' => __('messages.task.update.failure')
+            ];
+        }
+        return redirect()->route('tasks.index')->with($message);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Show all employee in project
+     *
+     * @param int $projectId
+     * @return Collection
+     */
+    private function getEmployeeInProject($projectId)
+    {
+        $project = Project::with('employees')->findOrFail($projectId);
+        $employees = $project->employees;
+
+        return $employees;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -60,6 +61,20 @@ class AuthServiceProvider extends ServiceProvider
             }
             //if user is leader of project
             foreach ($project->employees as $employee) {
+                if ($user->id === $employee->id) {
+                    return true;
+                }
+            }
+            return false;
+        });
+        Gate::define('edit-task', function ($user, $projectID) {
+            //when user is super admin, he can do any thing
+            if ($user->role === config('app.employee_role.admin')) {
+                return true;
+            }
+            //if user is member in project
+            $employeeInProject = Project::findorfail($projectID)->employees;
+            foreach ($employeeInProject as $employee) {
                 if ($user->id === $employee->id) {
                     return true;
                 }
