@@ -81,7 +81,12 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $project = Project::with('employees')->findOrFail($id);
+        $data = [
+            'project' => $project,
+        ];
+
+        return view('projects.show', $data);
     }
 
     /**

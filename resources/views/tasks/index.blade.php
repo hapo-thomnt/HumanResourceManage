@@ -98,6 +98,9 @@
 
             {{ $tasks->links() }}
             <div>
+                <a style="margin: 19px;" href="{{ route('tasks.create')}}" class="btn btn-primary">Đăng ký task mới</a>
+            </div>
+            <div>
             </div>
 @endsection
 

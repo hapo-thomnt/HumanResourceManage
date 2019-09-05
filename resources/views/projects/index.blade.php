@@ -1,6 +1,6 @@
 @extends('layout')
 @section('css')
-    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
     <div class="row">
@@ -20,13 +20,15 @@
                     <td>Khách hàng phụ trách</td>
                     <td>Mô tả</td>
                     <td>Phân công dự án</td>
-                    <td colspan = 2>Thao tác</td>
+                    <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($projects as $project)
                     <tr>
-                        <td>{{ $project->name }}</td>
+                        <td>
+                            <a href="{{ route('projects.show',$project->id)}}">{{ $project->name }}</a>
+                        </td>
                         <td>{{ $project->start_date }}</td>
                         <td>{{ $project->end_date }}</td>
                         <td>{{ $project->customer ? $project->customer->firstname : $project->customer }}</td>
@@ -41,7 +43,9 @@
                             <form action="{{ route('projects.destroy', $project->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger"  @cannot('delete-project')   disabled    @endcannot    type="submit">Delete</button>
+                                <button class="btn btn-danger" @cannot('delete-project')   disabled
+                                        @endcannot    type="submit">Delete
+                                </button>
                             </form>
                         </td>
                     </tr>

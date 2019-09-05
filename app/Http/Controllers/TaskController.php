@@ -173,7 +173,7 @@ class TaskController extends Controller
      * @param int $projectId
      * @return Collection
      */
-    private function getEmployeeInProject($projectId)
+    public function getEmployeeInProject($projectId)
     {
         $project = Project::with('employees')->findOrFail($projectId);
         $employees = $project->employees;
