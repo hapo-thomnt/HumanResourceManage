@@ -44,7 +44,7 @@
                             <img class="avatar" src="{{ asset(config('app.file_path').$employee->avatar) }}"
                                  alt="avatar">
                         </td>
-                        <td>{{ $employee->lastname }} {{ $employee->firstname }}</td>
+                        <td>{{ $employee->fullname }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>
                             @foreach(config('app.employee_role') as $key => $role)

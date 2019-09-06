@@ -32,9 +32,8 @@
                 </div>
                 <div class="form-group">
                     <label for="project_id">Thuộc dự án:</label>
-{{--                    <select name="project_id" class="form-control select-project" onchange="setEmployeesInProject($(this).val())">--}}
-{{--                    <select name="project_id" class="form-control select-project" onchange="setEmployeesInProject('{{route('tasks.create')}}')">--}}
-                    <select name="project_id" class="form-control select-project" onchange="setEmployeesInProject('{{route('task.get-employee-in-project',100000)}}',$(this).val())">
+                    <select name="project_id" class="form-control select-project"
+                            onchange="setEmployeesInProject('{{route('task.get-employee-in-project',100000)}}',$(this).val())">
                         @foreach($projects as $project)
                             <option
                                 value="{{$project->id}}">{{ $project->name }}</option>
@@ -43,17 +42,15 @@
                 </div>
                 <div class="form-group">
                     <label for="employee_id">Nhân viên phụ trách:</label>
-                    <div class="abc">
-                        <select name="employee_id" class="form-control">
-                            @foreach($employees as $employee)
-                                <option
-                                    value="{{$employee->id}}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <select name="employee_id" class="form-control employeee">
+                        @foreach($employees as $employee)
+                            <option value="{{$employee->id}}">{{ $employee->fullname }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
-                    <input type="hidden" class="form-control" name="status" value = "{{ config('app.task_status.new') }}"/>
+                    <input type="hidden" class="form-control" name="status"
+                           value="{{ config('app.task_status.new') }}"/>
                 </div>
                 <div class="form-group">
                     <label for="description">Mô tả:</label>
@@ -66,46 +63,28 @@
 @endsection
 @section('js')
     <script>
-        {{--$(document).on('change', '.select-project', function(){--}}
-        {{--     // alert( $(this).val());--}}
-        {{--    var data = setEmployeesInProject($(this).val());--}}
-        {{--    $('.abc').html(`--}}
-        {{--            <select name="employee_id" class="form-control">--}}
-        {{--                @foreach($employees as $employee)--}}
-        {{--        <option--}}
-        {{--            value="{{$employee->id}}">{{ $employee->firstname }} {{ $employee->lastname }}</option>--}}
-        {{--                @endforeach--}}
-        {{--        </select>`)--}}
-        {{--    $('.abc').html(data)--}}
-        {{--});--}}
-        function setEmployeesInProject(Url,projectID) {
-            var newUrl = Url.replace(100000,projectID);
-            // alert(newUrl);
+        function setEmployeesInProject(Url, projectID) {
+            var newUrl = Url.replace(100000, projectID);
             $.ajax({
+                url: newUrl,
+                type: 'GET',
+                data: {
+                    'numberOfWords': 10
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var $employeee = $('.employeee');
+                    $employeee.empty();
 
-                url : newUrl ,
-                type : 'GET',
-                data : {
-                    'numberOfWords' : 10
+                    for (let i = 0; i < data.length; i++) {
+                        var o = new Option(data[i].fullname, data[i].id);
+                        $(".employeee").append(o);
+                    }
                 },
-                dataType:'json',
-                success : function(data) {
-                    {{--$('.abc').html(`--}}
-                    {{--<select name="employee_id" class="form-control">--}}
-                    {{--    @foreach($employees as $employee)--}}
-                    {{--    <option--}}
-                    {{--        value="{{$employee->id}}">{{ $employee->firstname }} {{ $employee->lastname }}</option>--}}
-                    {{--    @endforeach--}}
-                    {{--    </select>`)--}}
-                    alert(data);
-                },
-                error : function(request,error)
-                {
+                error: function (request, error) {
                     //do nothing
                 }
             });
-            // // var myProjectID = document.getElementById("project_id").value;
-            // return null;
         }
     </script>
 @endsection

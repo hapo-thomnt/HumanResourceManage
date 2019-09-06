@@ -130,7 +130,7 @@ class CompanyController extends Controller
             $destroy = Company::destroy($id);
             if ($destroy) {
                 $message = [
-                    'status' => 'danger',
+                    'status' => 'success',
                     'content' => __('messages.company.delete.success')
                 ];
             }

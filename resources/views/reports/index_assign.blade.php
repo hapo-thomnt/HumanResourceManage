@@ -36,7 +36,7 @@
                     @foreach($project->employees as $employee)
                         <tr>
                             <td><input type="hidden" name="employee_id[]"
-                                       value="{{ $employee->id }} "/>{{ $employee->lastname }} {{ $employee->firstname }}
+                                       value="{{ $employee->id }} "/>{{ $employee->fullname }}
                             </td>
                             <input type="hidden" name="is_new[]" value="false"/>
                             <input type="hidden" name="origin_start_date[]" value="{{ $employee->pivot->start_date }}"/>
@@ -71,7 +71,7 @@
                                 <option></option>
                                 @foreach($employees as $employee)
                                     <option
-                                        value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
+                                        value="{{$employee->id}}"> {{ $employee->fullname}}</option>
                                 @endforeach
                             </select>
                             <input type="hidden" name="is_new[]" value="true"/>
@@ -102,7 +102,7 @@
                         <select name="employee_id[]" >
                                 <option></option>
                             @foreach($employees as $employee)
-                    <option value="{{$employee->id}}"> {{ $employee->lastname }} {{ $employee->firstname }}</option>
+                    <option value="{{$employee->id}}"> {{ $employee->fullname }}</option>
                             @endforeach
                     </select>
                     <input type="hidden" name="is_new[]" value="true" />

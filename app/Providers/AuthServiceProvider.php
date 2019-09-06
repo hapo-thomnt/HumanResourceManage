@@ -83,6 +83,11 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('create-task', function ($user, $projectID) {
            //TODO
+            return true;
+        });
+        Gate::define('create-report', function ($user) {
+            //TODO
+            return true;
         });
     }
 }

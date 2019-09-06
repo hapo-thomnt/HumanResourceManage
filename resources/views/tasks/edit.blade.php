@@ -39,7 +39,8 @@
                 </div>
                 <div class="form-group">
                     <label for="project_id">Thuộc dự án:</label>
-                    <select name="project_id" class="form-control">
+                    <select name="project_id" class="form-control select-project"
+                            onchange="setEmployeesInProject('{{route('task.get-employee-in-project',100000)}}',$(this).val())">
                         @foreach($projects as $project)
                             <option @if($task->project?$task->project->id == $project->id: false) selected @endif
                                 value="{{$project->id}}">{{ $project->name }}</option>
@@ -48,10 +49,10 @@
                 </div>
                 <div class="form-group">
                     <label for="employee_id">Nhân viên phụ trách:</label>
-                    <select name="employee_id" class="form-control">
+                    <select name="employee_id" class="form-control employeee">
                         @foreach($employees as $employee)
                             <option @if($task->employee?$task->employee->id == $employee->id: false) selected @endif
-                            value="{{$employee->id}}">{{ $employee->lastname }}{{ $employee->firstname }}</option>
+                            value="{{$employee->id}}">{{ $employee->fullname }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -63,4 +64,31 @@
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        function setEmployeesInProject(Url, projectID) {
+            var newUrl = Url.replace(100000, projectID);
+            $.ajax({
+                url: newUrl,
+                type: 'GET',
+                data: {
+                    'numberOfWords': 10
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var $employeee = $('.employeee');
+                    $employeee.empty();
+
+                    for (let i = 0; i < data.length; i++) {
+                        var o = new Option(data[i].fullname, data[i].id);
+                        $(".employeee").append(o);
+                    }
+                },
+                error: function (request, error) {
+                    //do nothing
+                }
+            });
+        }
+    </script>
 @endsection

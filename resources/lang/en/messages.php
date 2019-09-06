@@ -78,5 +78,18 @@ return [
             'success' => 'Task Deleted Successfully',
         ],
     ],
+    'report' => [
+        'create' => [
+            'success' => 'Report Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Report Update Successfully',
+            'failure' => 'Update Failed! Please try later',
+        ],
+        'delete' => [
+            'success' => 'Report Deleted Successfully',
+        ],
+    ],
 
 ];

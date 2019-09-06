@@ -149,7 +149,7 @@ class ProjectController extends Controller
             $destroy = Project::destroy($id);
             if ($destroy) {
                 $message = [
-                    'status' => 'danger',
+                    'status' => 'success',
                     'content' => __('messages.project.delete.success')
                 ];
             }

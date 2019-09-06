@@ -10,37 +10,33 @@
                     {{ session('content') }}
                 </div>
             @endif
-            <h2 class="display-4">Danh sách Dự án</h2>
+            <h2 class="display-4">Danh sách Báo cáo hàng ngày</h2>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <td>Tên dự án</td>
-                    <td>Ngày bắt đầu</td>
-                    <td>Ngày kết thúc dự kiến</td>
-                    <td>Khách hàng phụ trách</td>
-                    <td>Mô tả</td>
-                    <td>Phân công dự án</td>
+                    <td>No</td>
+                    <td>Nhân viên</td>
+                    <td>Ngày</td>
+                    <td>Chú thích</td>
                     <td colspan=2>Thao tác</td>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($projects as $project)
+                @php($counter=0)
+                @foreach($reports as $report)
+                    @php($counter=$counter+1)
                     <tr>
                         <td>
-                            <a href="{{ route('projects.show',$project->id)}}">{{ $project->name }}</a>
+                            <a href="{{ route('reports.show',$report->id)}}">{{ $counter }}</a>
                         </td>
-                        <td>{{ $project->start_date }}</td>
-                        <td>{{ $project->end_date }}</td>
-                        <td>{{ $project->customer ? $project->customer->fullname : $project->customer }}</td>
-                        <td>{{ $project->description }}</td>
+                        <td>{{ $report->employee ? $report->employee->fullname : $report->employee }}</td>
+                        <td>{{ $report->report_date }}</td>
+                        <td>{{ $report->note }}</td>
                         <td>
-                            <a href="{{ route('project-assign.edit',$project->id)}}" class="btn btn-primary">Phân công</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('projects.edit',$project->id)}}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('reports.edit',$report->id)}}" class="btn btn-primary">Edit</a>
                         </td>
                         <td>
-                            <form action="{{ route('projects.destroy', $project->id)}}" method="post">
+                            <form action="{{ route('reports.destroy', $report->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger" @cannot('delete-project')   disabled
@@ -53,8 +49,11 @@
                 </tbody>
             </table>
 
-            {{ $projects->links() }}
+            {{ $reports->links() }}
             <div>
+                <div>
+                    <a style="margin: 19px;" href="{{ route('reports.create')}}" class="btn btn-primary">Viết báo cáo</a>
+                </div>
             </div>
 @endsection
 

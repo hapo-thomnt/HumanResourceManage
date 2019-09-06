@@ -154,7 +154,7 @@ class EmployeeController extends Controller
             $destroy = Employee::destroy($id);
             if ($destroy) {
                 $message = [
-                    'status' => 'danger',
+                    'status' => 'success',
                     'content' => __('messages.employee.delete.success')
                 ];
             }

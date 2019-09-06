@@ -7,6 +7,8 @@ use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Collection;
+use phpDocumentor\Reflection\Types\Boolean;
+use PhpParser\Node\Expr\Array_;
 
 class TaskController extends Controller
 {
@@ -48,7 +50,7 @@ class TaskController extends Controller
         }
 
         $projects = Project::all();
-        $employees= Employee::all();
+        $employees = Employee::all();
         $data = [
             'tasks' => $tasks->paginate(config('app.paginate')),
             'projects' => $projects,
@@ -64,10 +66,14 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $employees = Employee::all();
         $projects = Project::all();
+        $projectEmployees=null;
+        if(sizeof($projects)>0){
+            $projectEmployees = self::getEmployeeInProject($projects[0]->id);
+        }
+
         $data = [
-            'employees' => $employees,
+            'employees' => $projectEmployees,
             'projects' => $projects,
         ];
         return view('tasks.create', $data);
@@ -171,13 +177,54 @@ class TaskController extends Controller
      * Show all employee in project
      *
      * @param int $projectId
-     * @return Collection
+     * @return Array_
      */
     public function getEmployeeInProject($projectId)
     {
         $project = Project::with('employees')->findOrFail($projectId);
         $employees = $project->employees;
-
+        $employees = self::getRemovedDuplicateEmployee($employees);
         return $employees;
+    }
+
+    /**
+     * remove all duplicate employee in array
+     *
+     * @param array $employees
+     * @return Array
+     */
+    private function getRemovedDuplicateEmployee($employees)
+    {
+        if (sizeof($employees) <= 1) {
+            return $employees;
+        }
+
+        $result = array();
+        array_push($result, $employees[1]);
+
+        foreach ($employees as $tempEmployee) {
+            if (self::isEmployeeInArray($tempEmployee, $result)) {
+                continue;
+            };
+            array_push($result, $tempEmployee);
+        }
+        return $result;
+    }
+
+    /**
+     * remove all duplicate employee in array
+     *
+     * @param $employee
+     * @param $array
+     * @return boolean
+     */
+    private function isEmployeeInArray($employee, $employees)
+    {
+        foreach ($employees as $tempEmployee) {
+            if ($employee->id == $tempEmployee->id) {
+                return true;
+            };
+        }
+        return false;
     }
 }

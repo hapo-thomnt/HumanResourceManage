@@ -18,8 +18,7 @@ Route::resources([
     'tasks' => 'TaskController',
     'companies' => 'CompanyController',
     'customers' => 'CustomerController',
-    'daily-tasks' => 'DailyAssignController',
-    'daily-reports' => 'DailyReportController',
+    'reports' => 'ReportController',
     'employees' => 'EmployeeController',
     'projects' => 'ProjectController',
 ]);

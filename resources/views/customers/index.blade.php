@@ -41,7 +41,7 @@
                             <img class="avatar" src="{{ asset(config('app.file_path').$customer->avatar) }}"
                                  alt="avatar">
                         </td>
-                        <td>{{ $customer->firstname }} {{ $customer->lastname }}</td>
+                        <td>{{ $customer->fullname }}</td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer->phone }}</td>
                         <td>{{ $customer->address }}</td>

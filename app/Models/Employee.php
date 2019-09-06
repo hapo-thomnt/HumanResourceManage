@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -44,12 +43,24 @@ class Employee extends Authenticatable
         'birthday' => 'date',
     ];
 
+    protected $appends = [
+        'fullname',
+    ];
+
     /**
      * Get the project that employees working in
      */
     public function projects()
     {
         return $this->belongsToMany(Project::class)->withPivot('start_date', 'end_date','role');
+    }
+
+    /**
+     * Get the reporta user have
+     */
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 
     /**
@@ -88,5 +99,10 @@ class Employee extends Authenticatable
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->lastname . ' ' . $this->firstname;
     }
 }

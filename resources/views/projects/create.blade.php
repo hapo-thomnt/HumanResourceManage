@@ -39,7 +39,7 @@
                     <select name="customer_id">
                         @foreach($customers as $customer)
                             <option
-                                value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                                value="{{$customer->id}}">{{ $customer->fullname }}</option>
                         @endforeach
                     </select>
                 </div>

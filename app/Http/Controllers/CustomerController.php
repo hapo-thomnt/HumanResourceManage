@@ -167,7 +167,7 @@ class CustomerController extends Controller
             $destroy = Customer::destroy($id);
             if ($destroy) {
                 $message = [
-                    'status' => 'danger',
+                    'status' => 'success',
                     'content' => __('messages.customer.delete.success')
                 ];
             }

@@ -35,7 +35,7 @@
                     <select name="customer_id" class="form-group">
                         @foreach($customers as $customer)
                             <option @if($project->customer?$project->customer->id == $customer->id: false) selected
-                                    @endif value="{{$customer->id}}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                                    @endif value="{{$customer->id}}">{{ $customer->fullname }}</option>
                         @endforeach
                     </select>
                 </div>

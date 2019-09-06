@@ -95,13 +95,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../charts/chartjs.html" class="nav-link">
+                                <a href="{{ route('reports.create')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Đăng ký báo cáo</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../charts/flot.html" class="nav-link">
+                                <a href="{{ route('reports.index')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách báo cáo</p>
                                 </a>

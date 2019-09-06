@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                     <td>Khách hàng phụ trách:</td>
-                    <td>{{ $project->customer->lastname }}{{ $project->customer->firstname }}</td>
+                    <td>{{ $project->customer->fullname }}</td>
                 </tr>
                 <tr>
                     <td>Mô tả:</td>

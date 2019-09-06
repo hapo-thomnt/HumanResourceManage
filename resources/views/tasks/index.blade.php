@@ -49,7 +49,7 @@
                         <option selected value=""></option>
                         @foreach($employees as $employee)
                             <option @if(request('employee_id') == $employee->id) selected @endif
-                            value="{{$employee->id}}">{{ $employee->lastname }}{{ $employee->firstname }}</option>
+                            value="{{$employee->id}}">{{ $employee->fullname }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -78,7 +78,7 @@
                         </td>
                         <td>{{ $task->code }}</td>
                         <td>{{ $task->name }}</td>
-                        <td>{{ $task->employee ? $task->employee->firstname : $task->employee }}</td>
+                        <td>{{ $task->employee ? $task->employee->fullname : $task->employee }}</td>
                         <td>{{ $task->project ? $task->project->name : $task->project }}</td>
                         <td>{{ $task->description }}</td>
                         <td>

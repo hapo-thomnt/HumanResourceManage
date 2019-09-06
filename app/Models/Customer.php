@@ -32,6 +32,9 @@ class Customer extends Model
         'password',
     ];
 
+    protected $appends = [
+        'fullname',
+    ];
     /**
      * Get the company that customer work for
      */
@@ -46,5 +49,10 @@ class Customer extends Model
     public function project()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->lastname . ' ' . $this->firstname;
     }
 }

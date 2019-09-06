@@ -80,5 +80,19 @@ return [
             'failure' => 'Có vấn đề xảy ra trong quá trình xóa. Hãy thử xóa lại sau nhé !',
         ],
     ],
+    'report' => [
+        'create' => [
+            'success' => 'Đăng ký Báo cáo mới thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật Báo cáo  thành công ',
+            'failure' => 'Chưa cập nhật được. Hãy thử lại sau !',
+        ],
+        'delete' => [
+            'success' => 'Xóa Báo cáo  thành công',
+            'failure' => 'Có vấn đề xảy ra trong quá trình xóa. Hãy thử xóa lại sau nhé !',
+        ],
+    ],
 
 ];
