@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Project;
+use App\Models\Report;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -82,12 +83,35 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         Gate::define('create-task', function ($user, $projectID) {
-           //TODO
-            return true;
+            //when user is super admin, he can do any thing
+            if ($user->role === config('app.employee_role.admin')) {
+                return true;
+            }
+            //if user is member in project
+            $employeeInProject = Project::findorfail($projectID)->employees;
+            foreach ($employeeInProject as $employee) {
+                if ($user->id === $employee->id) {
+                    return true;
+                }
+            }
+            return false;
         });
         Gate::define('create-report', function ($user) {
-            //TODO
             return true;
+        });
+        Gate::define('edit-report', function ($user,$reportId) {
+            $report = Report::findorfail($reportId);
+            if ($user->id === $report->employee_id) {
+                return true;
+            }
+            return false;
+        });
+        Gate::define('delete-report', function ($user,$reportId) {
+            $report = Report::findorfail($reportId);
+            if ($user->id === $report->employee_id) {
+                return true;
+            }
+            return false;
         });
     }
 }

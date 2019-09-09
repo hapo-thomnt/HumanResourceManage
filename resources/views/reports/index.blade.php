@@ -33,13 +33,14 @@
                         <td>{{ $report->report_date }}</td>
                         <td>{{ $report->note }}</td>
                         <td>
-                            <a href="{{ route('reports.edit',$report->id)}}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('reports.edit',$report->id)}}" class="btn btn-primary" @cannot('edit-report',$report->id)   disabled
+                                @endcannot>Edit</a>
                         </td>
                         <td>
                             <form action="{{ route('reports.destroy', $report->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" @cannot('delete-project')   disabled
+                                <button class="btn btn-danger" @cannot('delete-report',$report->id)   disabled
                                         @endcannot    type="submit">Delete
                                 </button>
                             </form>
