@@ -83,17 +83,11 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
-                                Công việc hàng ngày
+                                Báo cáo
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('tasks.index')}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh sách các task cần làm</p>
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('reports.create')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -104,6 +98,12 @@
                                 <a href="{{ route('reports.index')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách báo cáo</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tasks.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách các task cần làm</p>
                                 </a>
                             </li>
                         </ul>
