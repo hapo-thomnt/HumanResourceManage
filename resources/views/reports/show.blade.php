@@ -31,6 +31,29 @@
                 </tr>
                 </tbody>
             </table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Dự án</th>
+                    <th>Công việc</th>
+                    <th>Thời gian</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php($counter=0)
+                @foreach ($report->tasks as $task)
+                    @php($counter=$counter+1)
+                    <tr>
+                        <td>{{ $counter }}</td>
+                        <td>{{$task->project->name}}</td>
+                        <td>{{$task->name}}</td>
+                        <td>{{ $task->pivot->spent_time }}h</td>
+                    </tr>
+                @endforeach
+
+                </tbody>
+            </table>
             <a href="{{ route('reports.edit',$report->id)}}" class="btn btn-primary">Sửa báo cáo này</a>
         </div>
     </div>

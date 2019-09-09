@@ -26,6 +26,7 @@ Route::get('/project-assign/{project}/edit', 'ProjectController@editAssign')->na
 Route::patch('/project-assign/{project}', 'ProjectController@updateAssign')->name('project-assign.update');
 Route::get('/project-assign/{projectId}/{employeeId}', 'ProjectController@destroyAssign')->name('project-assign.destroy');
 Route::get('/tasks/{projectId}/employee', 'TaskController@getEmployeeInProject')->name('task.get-employee-in-project');
+Route::get('/reports/{reportId}/{taskId}', 'ReportController@destroyTask')->name('report-task.destroy');
 
 Auth::routes();
 

@@ -32,19 +32,25 @@
                     <label for="start_date">Ngày :</label>
                     <input type="date" class="form-control" name="report_date" value="{{date("Y-m-d")}}"/>
                 </div>
-                <div class="form-group manager-employee">
-                    <div class="form-inline">
-                        <select name="task_id[]" class="form-control">
-                            <option></option>
-                            @foreach($tasks as $task)
-                                <option
-                                    value="{{$task->id}}">{{ $task->code}}   {{ $task->name}}</option>
-                            @endforeach
-                        </select>
-                        <input type="hidden" name="is_new[]" value="true"/>
-                        <input type="number" class="form-control" name="spent_time[]" value="0"/>
-                        <button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button>
-                    </div>
+                <table class="table table-striped manager-employee">
+                    <tr>
+                        <td>Công việc:</td>
+                        <td>
+                            <select name="task_id[]" class="form-control">
+                                <option></option>
+                                @foreach($tasks as $task)
+                                    <option
+                                        value="{{$task->id}}">{{ $task->code}}   {{ $task->name}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>Số giờ:</td>
+                        <td><input type="number" class="form-control" name="spent_time[]" value="0"/></td>
+                        <td><button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button></td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <button type="button" class="btn btn-xs btn-primary button-add-employee">Thêm công việc để đăng ký</button>
                 </div>
                 <div class="form-group">
                     <label for="note">Chú thích:</label>
@@ -54,4 +60,30 @@
             </form>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.button-add-employee', function () {
+                $('.manager-employee').append('<tr>\n' +
+                    '                        <td>Công việc:</td>\n' +
+                    '                        <td>\n' +
+                    '                            <select name="task_id[]" class="form-control">\n' +
+                    '                                <option></option>\n' +
+                    '                                @foreach($tasks as $task)\n' +
+                    '                                    <option\n' +
+                    '                                        value="{{$task->id}}">{{ $task->code}}   {{ $task->name}}</option>\n' +
+                    '                                @endforeach\n' +
+                    '                            </select>\n' +
+                    '                        </td>\n' +
+                    '                        <td>Số giờ:</td>\n' +
+                    '                        <td><input type="number" class="form-control" name="spent_time[]" value="0"/></td>\n' +
+                    '                        <td><button type="button" class="btn btn-xs btn-warning button-delete-employee">Delete</button></td>\n' +
+                    '                    </tr>')
+            });
+            $(document).on('click', '.button-delete-employee', function () {
+                $(this).parent().parent().remove();
+            });
+        });
+    </script>
 @endsection

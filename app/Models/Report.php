@@ -26,4 +26,12 @@ class Report extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    /**
+     * Get the task that this report has
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class)->withPivot('spent_time');
+    }
 }

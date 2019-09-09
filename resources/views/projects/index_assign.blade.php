@@ -89,6 +89,7 @@
                     </div>
                     <button type="button" @cannot('update-assign-project', $project)   disabled @endcannot class="btn btn-xs btn-primary button-add-employee">Thêm</button>
                     <button type="submit" @cannot('update-assign-project', $project)   disabled @endcannot class="btn btn-primary">Cập nhật phân công</button>
+                    <a href="{{ route('tasks.create')}}" class="btn btn-primary">Đăng ký task mới cho dự án</a>
                 </div>
             </form>
         </div>
