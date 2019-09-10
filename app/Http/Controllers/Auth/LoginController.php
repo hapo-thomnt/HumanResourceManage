@@ -66,7 +66,8 @@ class LoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
-        if ($this->guard('customer')->attempt($this->credentials($request), $request->filled('remember'))) {
+
+        if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             return redirect()->intended('/customer');
         }
         return back()->withInput($request->only('email', 'remember'));
