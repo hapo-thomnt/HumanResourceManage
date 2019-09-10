@@ -35,4 +35,4 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/login/customer', 'Auth\LoginController@showCustomerLoginForm');
 Route::post('/login/customer', 'Auth\LoginController@customerLogin');
 //Route::view('/home', 'home')->middleware('auth');
-Route::view('/customer', 'customer');
+//Route::view('/customer', 'customer');
