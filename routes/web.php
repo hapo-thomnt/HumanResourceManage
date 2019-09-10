@@ -31,3 +31,8 @@ Route::get('/reports/{reportId}/{taskId}', 'ReportController@destroyTask')->name
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/login/customer', 'Auth\LoginController@showCustomerLoginForm');
+Route::post('/login/customer', 'Auth\LoginController@customerLogin');
+Route::view('/home', 'home')->middleware('auth');
+Route::view('/customer', 'customer');
