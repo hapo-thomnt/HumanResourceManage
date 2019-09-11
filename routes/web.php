@@ -30,4 +30,17 @@ Route::get('/reports/{reportId}/{taskId}', 'ReportController@destroyTask')->name
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm');
+Route::get('/login/customer', 'Auth\LoginController@showCustomerLoginForm');
+
+Route::post('/login/employee', 'Auth\LoginController@employeeLogin');
+Route::post('/login/customer', 'Auth\LoginController@customerLogin');
+
+Route::view('/home', 'home')->middleware('auth');
+Route::view('/employee', 'employee');
+Route::view('/customer', 'customer');
+
+Route::auth();
+Route::group(['middleware' => 'auth'], function () {
+    // All route your need authenticated
+});

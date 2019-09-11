@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     /**
      * The attributes that are mass assignable.
@@ -29,7 +30,7 @@ class Customer extends Model
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password', 'remember_token',
     ];
 
     protected $appends = [
