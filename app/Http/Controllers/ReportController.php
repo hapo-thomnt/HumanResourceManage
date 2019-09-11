@@ -13,6 +13,7 @@ class ReportController extends Controller
     public function __construct()
     {
 //        $this->middleware('auth');
+//        $this->authorizeResource(Report::class, 'report');
     }
 
     /**
@@ -22,7 +23,9 @@ class ReportController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Report::class);
         $reports = Report::with('employee')->paginate(config('app.paginate'));
+
         $data = [
             'reports' => $reports,
         ];
@@ -36,7 +39,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $this->authorize('create-report');
+        $this->authorize('create', Report::class);
         $tasks = self::getTasksOfEmployee(auth()->user()->id);
 
         $data = [
@@ -53,6 +56,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create');
         $input = $request->all();
         //save to report table
         $report = Report::create($input);
@@ -100,6 +104,7 @@ class ReportController extends Controller
     public function show($id)
     {
         $report = Report::with('tasks')->findOrFail($id);
+        $this->authorize('view', $report);
         $data = [
             'report' => $report,
         ];
@@ -116,6 +121,7 @@ class ReportController extends Controller
     public function edit($id)
     {
         $report = Report::with('tasks')->findOrFail($id);
+        $this->authorize('update', $report);
         $employeeTasks = self::getTasksOfEmployee(auth()->user()->id);
         $data = [
             'report' => $report,
@@ -135,6 +141,7 @@ class ReportController extends Controller
     public function update(Request $request, $reportId)
     {
         $report = Report::findOrFail($reportId);
+        $this->authorize('update', $report);
         $report->update($request->all());
 
         $taskIds = $request->task_id;
@@ -189,12 +196,13 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        $project = Report::findOrFail($id);
+        $report = Report::findOrFail($id);
+        $this->authorize('delete', $report);
         $message = [
             'status' => 'danger',
             'content' => __('messages.report.delete.failure')
         ];
-        if ($project) {
+        if ($report) {
             $destroy = Report::destroy($id);
             if ($destroy) {
                 $message = [
@@ -205,24 +213,6 @@ class ReportController extends Controller
         }
 
         return redirect()->route('reports.index')->with($message);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $project_id ,$employee_id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyTask($reportId, $taskId, Request $request)
-    {
-
-        $pivoteData = ReportTask::where('report_id', $reportId)
-            ->where('task_id', $taskId)
-            ->where('spent_time', $request->spent_time)
-            ->first();
-        $pivoteData->delete();
-
-        return redirect()->route('reports.edit', $reportId)->with('success', __('messages.project.delete.success'));
     }
 
     /**

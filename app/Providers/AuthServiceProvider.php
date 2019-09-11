@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Project;
 use App\Models\Report;
+use App\Policies\ReportPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -15,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+         'App\Model' => 'App\Policies\ModelPolicy',
+        Report::class=>ReportPolicy::class,
     ];
 
     /**
@@ -27,91 +29,91 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('edit-profile', function ($user) {
-            return true;
-        });
-        Gate::define('edit-project', function ($user, $project) {
-            //when user is super admin, he can do any thing
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            //if user is leader of project
-            foreach ($project->employees as $employee) {
-                if ($user->id === $employee->id) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        Gate::define('create-project', function ($user) {
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            return false;
-        });
-        Gate::define('delete-project', function ($user) {
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            return false;
-        });
-        Gate::define('update-assign-project', function ($user, $project) {
-            //when user is super admin, he can do any thing
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            //if user is leader of project
-            foreach ($project->employees as $employee) {
-                if ($user->id === $employee->id) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        Gate::define('edit-task', function ($user, $projectID) {
-            //when user is super admin, he can do any thing
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            //if user is member in project
-            $employeeInProject = Project::findorfail($projectID)->employees;
-            foreach ($employeeInProject as $employee) {
-                if ($user->id === $employee->id) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        Gate::define('create-task', function ($user, $projectID) {
-            //when user is super admin, he can do any thing
-            if ($user->role === config('app.employee_role.admin')) {
-                return true;
-            }
-            //if user is member in project
-            $employeeInProject = Project::findorfail($projectID)->employees;
-            foreach ($employeeInProject as $employee) {
-                if ($user->id === $employee->id) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        Gate::define('create-report', function ($user) {
-            return true;
-        });
-        Gate::define('edit-report', function ($user,$reportId) {
-            $report = Report::findorfail($reportId);
-            if ($user->id === $report->employee_id) {
-                return true;
-            }
-            return false;
-        });
-        Gate::define('delete-report', function ($user,$reportId) {
-            $report = Report::findorfail($reportId);
-            if ($user->id === $report->employee_id) {
-                return true;
-            }
-            return false;
-        });
+//        Gate::define('edit-profile', function ($user) {
+//            return true;
+//        });
+//        Gate::define('edit-project', function ($user, $project) {
+//            //when user is super admin, he can do any thing
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            //if user is leader of project
+//            foreach ($project->employees as $employee) {
+//                if ($user->id === $employee->id) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
+//        Gate::define('create-project', function ($user) {
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            return false;
+//        });
+//        Gate::define('delete-project', function ($user) {
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            return false;
+//        });
+//        Gate::define('update-assign-project', function ($user, $project) {
+//            //when user is super admin, he can do any thing
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            //if user is leader of project
+//            foreach ($project->employees as $employee) {
+//                if ($user->id === $employee->id) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
+//        Gate::define('edit-task', function ($user, $projectID) {
+//            //when user is super admin, he can do any thing
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            //if user is member in project
+//            $employeeInProject = Project::findorfail($projectID)->employees;
+//            foreach ($employeeInProject as $employee) {
+//                if ($user->id === $employee->id) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
+//        Gate::define('create-task', function ($user, $projectID) {
+//            //when user is super admin, he can do any thing
+//            if ($user->role === config('app.employee_role.admin')) {
+//                return true;
+//            }
+//            //if user is member in project
+//            $employeeInProject = Project::findorfail($projectID)->employees;
+//            foreach ($employeeInProject as $employee) {
+//                if ($user->id === $employee->id) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
+//        Gate::define('create-report', function ($user) {
+//            return true;
+//        });
+//        Gate::define('edit-report', function ($user,$reportId) {
+//            $report = Report::findorfail($reportId);
+//            if ($user->id === $report->employee_id) {
+//                return true;
+//            }
+//            return false;
+//        });
+//        Gate::define('delete-report', function ($user,$reportId) {
+//            $report = Report::findorfail($reportId);
+//            if ($user->id === $report->employee_id) {
+//                return true;
+//            }
+//            return false;
+//        });
     }
 }

@@ -60,14 +60,14 @@
                 <div class="image">
                     @if(isset(auth()->user()->id))
                         <img class="avatar" src="{{ asset(config('app.file_path').auth()->user()->avatar) }}" alt="avatar">
-                    @elseif(auth('customer')->user()->id)
+                    @elseif(isset(auth('customer')->user()->id))
                         <img class="avatar" src="{{ asset(config('app.file_path').auth('customer')->user()->avatar) }}" alt="avatar">
                     @endif
                 </div>
                 <div class="info">
                     @if(isset(auth()->user()->id))
                             <a href="{{ route('employees.edit',auth()->user()->id)}}" class="d-block">{{auth()->user()->lastname}} {{auth()->user()->firstname }}</a>
-                    @elseif(auth('customer')->user()->id)
+                    @elseif(isset(auth('customer')->user()->id))
                             <a href="{{ route('customers.edit',auth('customer')->user()->id)}}" class="d-block">{{auth('customer')->user()->lastname}} {{auth('customer')->user()->firstname }}</a>
                     @endif
                 </div>

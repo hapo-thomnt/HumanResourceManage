@@ -67,8 +67,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
-            return redirect()->intended('/employees');
+            return redirect()->route('projects.index');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
@@ -86,8 +85,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
-            return redirect()->intended('/customers');
+            return redirect()->route('projects.index');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
