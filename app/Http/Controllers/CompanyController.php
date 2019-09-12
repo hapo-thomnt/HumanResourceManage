@@ -14,6 +14,7 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Company::class);
         $search = $request->get('keyword');
         $companies = Company::query();
         if ($request) {
@@ -34,6 +35,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Company::class);
         return view('companies.create');
     }
 
@@ -45,6 +47,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Company::class);
         $input = $request->all();
 
         $company = Company::create($input);
@@ -84,6 +87,7 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('update', $company);
         return view('companies.edit', compact('company'));
     }
 
@@ -97,6 +101,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('update', $company);
         $company->update($request->all());
 
         if($company){
@@ -122,6 +127,7 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('delete', $company);
         $message = [
             'status' => 'danger',
             'content' => __('messages.company.delete.failure')

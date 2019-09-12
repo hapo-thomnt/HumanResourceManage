@@ -89,10 +89,10 @@ class ReportPolicy
      */
     public function forceDelete(Employee $user, Report $report)
     {
-        return $user->id === $report->employee_id;
+        return self::isMyReportOrAdmin( $user, $report);
     }
 
-    //check if  user is admin, or if admin own the report
+    //check if  user is admin, or if user own the report
     private function isMyReportOrAdmin(Employee $user, Report $report){
         if( $user->id === $report->employee_id){
             return true;

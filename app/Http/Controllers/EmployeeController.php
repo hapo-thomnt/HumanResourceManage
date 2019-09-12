@@ -13,7 +13,7 @@ class EmployeeController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth');
+
     }
 
     /**
@@ -23,6 +23,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Employee::class);
         $search = $request->get('keyword');
         $employees = Employee::query();
         if ($request) {
@@ -45,6 +46,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Employee::class);
         return view('employees.create');
     }
 
@@ -56,6 +58,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
+        $this->authorize('create', Employee::class);
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
@@ -102,6 +105,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+        $this->authorize('update', $employee);
         return view('employees.edit', compact('employee'));
     }
 
@@ -115,6 +119,7 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, $id)
     {
         $employee = Employee::findOrFail($id);
+        $this->authorize('update', $employee);
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
@@ -146,6 +151,7 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         $contact = Employee::findOrFail($id);
+        $this->authorize('delete', $contact);
         $message = [
             'status' => 'danger',
             'content' => __('messages.employee.delete.failure')

@@ -20,8 +20,9 @@ Route::resources([
     'customers' => 'CustomerController',
     'reports' => 'ReportController',
     'employees' => 'EmployeeController',
-    'projects' => 'ProjectController',
+//    'projects' => 'ProjectController',
 ]);
+Route::get('/project-assign/{project}', 'ProjectController@showAssign')->name('project-assign.show');
 Route::get('/project-assign/{project}/edit', 'ProjectController@editAssign')->name('project-assign.edit');
 Route::patch('/project-assign/{project}', 'ProjectController@updateAssign')->name('project-assign.update');
 Route::get('/project-assign/{projectId}/{employeeId}', 'ProjectController@destroyAssign')->name('project-assign.destroy');
@@ -39,6 +40,8 @@ Route::post('/login/customer', 'Auth\LoginController@customerLogin');
 Route::view('/home', 'home')->name('home');
 
 Route::auth();
-Route::group(['middleware' => 'auth'], function () {
-    // All route your need authenticated
+Route::group(['middleware' => 'auth:web,customer'], function () {
+    Route::resources([
+    'projects' => 'ProjectController',
+    ]);
 });

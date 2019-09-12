@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Employee extends Authenticatable
 {
     use SoftDeletes;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
+    const EMPLOYEE = 1;
+
     protected $fillable = [
         'email',
         'password',
@@ -23,6 +21,7 @@ class Employee extends Authenticatable
         'avatar',
         'address',
         'role',
+        'type'
     ];
 
     /**
@@ -53,6 +52,11 @@ class Employee extends Authenticatable
     public function projects()
     {
         return $this->belongsToMany(Project::class)->withPivot('start_date', 'end_date','role');
+    }
+
+    public function isEmployee()
+    {
+        return true;
     }
 
     /**

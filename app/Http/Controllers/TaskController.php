@@ -6,7 +6,6 @@ use App\Models\Employee;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Collection;
 use phpDocumentor\Reflection\Types\Boolean;
 use PhpParser\Node\Expr\Array_;
 
@@ -24,6 +23,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Task::class);
         $project_id = $request->get('project_id');
         $employee_id = $request->get('employee_id');
         $code = $request->get('code');
@@ -66,6 +66,7 @@ class TaskController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Task::class);
         $projects = Project::all();
         $projectEmployees=null;
         if(sizeof($projects)>0){
@@ -87,6 +88,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create',Task::class);
         $input = $request->all();
 
         $record = Task::create($input);
@@ -126,6 +128,7 @@ class TaskController extends Controller
     public function edit($id)
     {
         $task = Task::with('employee', 'project')->findOrFail($id);
+        $this->authorize('update', $task);
         $projects = Project::all();
         $projectEmployees = self::getEmployeeInProject($task->project->id);
         $data = [
@@ -147,6 +150,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
+        $this->authorize('update', $task);
         $task->update($request->all());
         if ($task) {
             $message = [
@@ -170,7 +174,23 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $this->authorize('delete', $task);
+        $message = [
+            'status' => 'danger',
+            'content' => __('messages.task.delete.failure')
+        ];
+        if ($task) {
+            $destroy = Task::destroy($id);
+            if ($destroy) {
+                $message = [
+                    'status' => 'success',
+                    'content' => __('messages.task.delete.success')
+                ];
+            }
+        }
+
+        return redirect()->route('tasks.index')->with($message);
     }
 
     /**

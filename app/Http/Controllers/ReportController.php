@@ -12,8 +12,7 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth');
-//        $this->authorizeResource(Report::class, 'report');
+
     }
 
     /**
@@ -56,7 +55,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create');
+        $this->authorize('create',Report::class);
         $input = $request->all();
         //save to report table
         $report = Report::create($input);

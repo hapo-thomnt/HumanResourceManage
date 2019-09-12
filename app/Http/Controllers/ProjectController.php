@@ -8,6 +8,7 @@ use App\Models\EmployProject;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use DB;
 
@@ -25,6 +26,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
+
         $projects = Project::with('customer')->paginate(config('app.paginate'));
         $data = [
             'projects' => $projects,
@@ -39,7 +41,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $this->authorize('create-project');
+        $this->authorize('project-create');
         $customers = Customer::all();
         $data = [
             'customers' => $customers,
@@ -55,6 +57,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('project-create');
         $input = $request->all();
 
         $record = Project::create($input);
@@ -98,6 +101,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('project-create');
         $project = Project::with('employees')->findOrFail($id);
         $customers = Customer::all();
         $data = [
@@ -117,6 +121,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('project-create');
         $project = Project::findOrFail($id);
         $project->update($request->all());
         if ($project) {
@@ -141,6 +146,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('project-delete');
         $project = Project::findOrFail($id);
         $message = [
             'status' => 'danger',
@@ -164,15 +170,33 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showAssign($project_id)
+    {
+        $project = Project::with('employees')->findOrFail($project_id);
+        $this->authorize('project-view-assign',$project);
+//        $employees = Employee::all();
+        $data = [
+            'project' => $project,
+//            'employees' => $employees,
+        ];
+        return view('projects.show_assign', $data);
+    }
+
+    /**
+     * Show the form for assign employee for project
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function editAssign($project_id)
     {
         $project = Project::with('employees')->findOrFail($project_id);
+        $this->authorize('project-edit-assign',$project);
         $employees = Employee::all();
         $data = [
             'project' => $project,
             'employees' => $employees,
         ];
-        return view('projects.index_assign', $data);
+        return view('projects.edit_assign', $data);
     }
 
     /**
@@ -183,6 +207,7 @@ class ProjectController extends Controller
     public function updateAssign(Request $request, $project_id)
     {
         $project = Project::findOrFail($project_id);
+        $this->authorize('project-edit-assign',$project);
         $employeeIds = $request->get('employee_id');
         $start_dates = $request->get('start_date');
         $end_dates = $request->get('end_date');

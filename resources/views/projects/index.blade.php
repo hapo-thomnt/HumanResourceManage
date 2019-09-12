@@ -34,7 +34,7 @@
                         <td>{{ $project->customer ? $project->customer->fullname : $project->customer }}</td>
                         <td>{{ $project->description }}</td>
                         <td>
-                            <a href="{{ route('project-assign.edit',$project->id)}}" class="btn btn-primary">Phân công</a>
+                            <a href="{{ route('project-assign.show',$project->id)}}" class="btn btn-primary">Phân công</a>
                         </td>
                         <td>
                             <a href="{{ route('projects.edit',$project->id)}}" class="btn btn-primary">Edit</a>

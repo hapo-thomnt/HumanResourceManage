@@ -22,6 +22,7 @@ class Customer extends Authenticatable
         'birthday',
         'avatar',
         'address',
+        'is'
     ];
 
     /**
@@ -35,6 +36,7 @@ class Customer extends Authenticatable
 
     protected $appends = [
         'fullname',
+        'type',
     ];
     /**
      * Get the company that customer work for
@@ -42,6 +44,10 @@ class Customer extends Authenticatable
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+    public function isCustomer()
+    {
+        return true;
     }
 
     /**
@@ -55,5 +61,10 @@ class Customer extends Authenticatable
     public function getFullnameAttribute()
     {
         return $this->lastname . ' ' . $this->firstname;
+    }
+
+    public function getTypeAttribute()
+    {
+        return 'customer';
     }
 }
