@@ -24,6 +24,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('customer-viewAny');
         $search = $request->get('keyword');
         $customers = Customer::query();
         if ($request) {
@@ -46,6 +47,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
+        $this->authorize('customer-create');
         $companies = Company::all();
         $data = [
             'companies' => $companies,
@@ -61,6 +63,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
+        $this->authorize('customer-create');
         $input = $request->except('avatar');
 
         if ($request->hasFile('avatar')) {
@@ -108,6 +111,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('customer-create');
         $customer = Customer::findOrFail($id);
         $companies = Company::all();
         $data = [
@@ -126,6 +130,7 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, $id)
     {
+        $this->authorize('customer-create');
         $customer = Customer::findOrFail($id);
         $input = $request->except('avatar');
         if ($request->hasFile('avatar')) {
@@ -158,6 +163,7 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('customer-delete');
         $customer = Customer::findOrFail($id);
         $message = [
             'status' => 'danger',

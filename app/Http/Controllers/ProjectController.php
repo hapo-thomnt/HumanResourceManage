@@ -26,7 +26,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-
+        $this->authorize('project-viewAny');
         $projects = Project::with('customer')->paginate(config('app.paginate'));
         $data = [
             'projects' => $projects,
@@ -85,6 +85,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('project-viewAny');
         $project = Project::with('employees')->findOrFail($id);
         $data = [
             'project' => $project,
