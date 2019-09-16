@@ -40,12 +40,12 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="adress">Ngày sinh:</label>
+                    <label for="birthday">Ngày sinh:</label>
                     <input type="date" class="form-control" name="birthday" value="{{ $employee->birthday }}"/>
                 </div>
                 <div class="form-group">
-                    <label for="adress">Đại chỉ:</label>
-                    <input type="text" class="form-control" name="adress" value="{{ $employee->adress }}"/>
+                    <label for="address">Đại chỉ:</label>
+                    <input type="text" class="form-control" name="address" value="{{ $employee->address }}"/>
                 </div>
                 <div class="form-group">
                     <label for="role">Loại nhân viên:</label>

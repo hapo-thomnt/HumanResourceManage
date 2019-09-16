@@ -43,7 +43,7 @@
                     <label for="description">Mô tả:</label>
                     <textarea class="form-control" name="description"/> {{ $project->description }}</textarea>
                 </div>
-                <button   @cannot('edit-project', $project)   disabled    @endcannot       type="submit" class="btn btn-primary">Cập Nhật</button>
+                <button    type="submit" class="btn btn-primary">Cập Nhật</button>
             </form>
         </div>
     </div>

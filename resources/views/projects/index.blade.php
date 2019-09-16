@@ -43,8 +43,7 @@
                             <form action="{{ route('projects.destroy', $project->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" @cannot('delete-project')   disabled
-                                        @endcannot    type="submit">Delete
+                                <button class="btn btn-danger"  type="submit">Delete
                                 </button>
                             </form>
                         </td>

@@ -53,7 +53,7 @@
                             @endforeach
                         </td>
                         <td>{{  date('d-m-Y', strtotime($employee->birthday))}}</td>
-                        <td>{{ $employee->adress }}</td>
+                        <td>{{ $employee->address }}</td>
                         <td>
                             <a href="{{ route('employees.edit',$employee->id)}}" class="btn btn-primary">Edit</a>
                         </td>
